@@ -4,14 +4,14 @@ class ArrayImplementation
 {
 	private int[] a; 
 	private int nElems; 
-	
-	
+
+
 	public ArrayImplementation(int max){
 		a = new int[max]; 
 		nElems = 0; 
 	}
-	
-	
+
+
 	public boolean find(double searchKey){ 
 		int j;
 		for(j=0; j<nElems; j++){ 
@@ -24,15 +24,15 @@ class ArrayImplementation
 		else
 			return true; 
 	} 
-	
-	
+
+
 	public void insert(int value){
 		a[nElems] = value; 
-		
+
 		nElems++; 
 	}
-	
-	
+
+
 	public boolean delete(int value){
 		int j;
 		for(j=0; j<nElems; j++) 
@@ -48,10 +48,60 @@ class ArrayImplementation
 			return true;
 		}
 	} 
+
+	public void bubbleSort(){
+		for(int out = nElems-1; out > 1; out--){
+			for(int inner = 0; inner < out; inner++){
+				if(a[inner] > a[inner + 1]){
+					int temp = a[inner];
+					a[inner] = a[inner + 1];
+					a[inner + 1] = temp;
+				}
+			}
+		}
+	}
+	
+	public void selectionSort(){
+		int minPosition;
+		for(int out = 0; out < nElems-1; out++){
+			minPosition = out;
+			for(int inner = out + 1; inner < nElems; inner++){
+				if(a[inner] < a[minPosition]){
+					minPosition = inner;
+				}
+			}
+			int swapTemp = a[minPosition];
+			a[minPosition] = a[out];
+			a[out] = swapTemp;
+		}
+	}
 	
 	
-	public void display(){
+	public int binarySearch(int elementFind){
+		int lowerBound = 0;
+		int upperBound = nElems-1;
+		int currentPosition;
 		
+		while(true){
+			currentPosition = ((lowerBound + upperBound) / 2);
+			//DEBUG System.out.println("CURRENTPOSITION:: "+currentPosition+"\t LOWERBOUND:: "+lowerBound+"\t UPPERBOUND:: "+upperBound);
+			//DEBUG System.out.println("CURRENT ELEMENT:: "+array[currentPosition]);
+			if(a[currentPosition] == elementFind){
+				return currentPosition;
+			}else if(lowerBound >= upperBound){
+				return nElems;
+			}else{
+				if(a[currentPosition] < elementFind){
+					lowerBound = currentPosition + 1;
+				}else{
+					upperBound = currentPosition - 1;
+				}
+			}
+		}
+	}
+
+	public void display(){
+
 		for(int j=0; j<nElems; j++) 
 			System.out.print(a[j] + " "); 
 		System.out.println("");
@@ -63,31 +113,43 @@ class HighArray
 	public static void main(String[] args)
 	{
 		int maxSize = 100; 
-		ArrayImplementation arr = new ArrayImplementation(maxSize);
-		
-		arr.insert(77);
-		arr.insert(99);
-		arr.insert(44);
-		arr.insert(55);
-		arr.insert(22);
-		arr.insert(88);
-		arr.insert(11);
-		arr.insert(00);
-		arr.insert(66);
-		arr.insert(33);
-		
-		arr.display(); 
-		
+		ArrayImplementation array = new ArrayImplementation(maxSize);
+
+		array.insert(77);
+		array.insert(99);
+		array.insert(44);
+		array.insert(55);
+		array.insert(7);
+		array.insert(73);
+		array.insert(22);
+		array.insert(88);
+		array.insert(11);
+		array.insert(00);
+		array.insert(66);
+		array.insert(33);
+
+		array.display(); 
+
 		int searchKey = 35; 
-		
-		if( arr.find(searchKey) )
+
+		if( array.find(searchKey) )
 			System.out.println("Found " + searchKey);
 		else
 			System.out.println("Can't find " + searchKey);
+
+		array.delete(00);
+		array.delete(55);
+		array.delete(99);
+		array.display();
+
+		System.out.println("BUBBLE SORT:: ");
+		array.bubbleSort();
+		array.display();
 		
-		arr.delete(00);
-		arr.delete(55);
-		arr.delete(99);
-		arr.display();
+		System.out.println("SELECTION SORT:: ");
+		array.selectionSort();
+		array.display();
+		
+		System.out.println("Binary Search 88 -> "+array.binarySearch(88));
 	} 
 } 
