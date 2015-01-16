@@ -60,7 +60,7 @@ class ArrayImplementation
 			}
 		}
 	}
-	
+
 	public void selectionSort(){
 		int minPosition;
 		for(int out = 0; out < nElems-1; out++){
@@ -75,13 +75,25 @@ class ArrayImplementation
 			a[out] = swapTemp;
 		}
 	}
-	
-	
+
+	public void insertionSort(){
+		for(int out = 1; out < nElems; out++){
+			int temp = a[out];
+			int in = out;
+
+			while(in > 0 && a[in-1] >= temp){
+				a[in] = a[in-1];
+				--in;
+			}
+			a[in] = temp;
+		}
+	}
+
 	public int binarySearch(int elementFind){
 		int lowerBound = 0;
 		int upperBound = nElems-1;
 		int currentPosition;
-		
+
 		while(true){
 			currentPosition = ((lowerBound + upperBound) / 2);
 			//DEBUG System.out.println("CURRENTPOSITION:: "+currentPosition+"\t LOWERBOUND:: "+lowerBound+"\t UPPERBOUND:: "+upperBound);
@@ -145,11 +157,15 @@ class HighArray
 		System.out.println("BUBBLE SORT:: ");
 		array.bubbleSort();
 		array.display();
-		
+
 		System.out.println("SELECTION SORT:: ");
 		array.selectionSort();
 		array.display();
 		
+		System.out.println("INSERTION SORT:: ");
+		array.insertionSort();
+		array.display();
+
 		System.out.println("Binary Search 88 -> "+array.binarySearch(88));
 	} 
 } 
