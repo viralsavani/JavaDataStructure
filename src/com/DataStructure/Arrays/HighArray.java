@@ -96,8 +96,6 @@ class ArrayImplementation
 
 		while(true){
 			currentPosition = ((lowerBound + upperBound) / 2);
-			//DEBUG System.out.println("CURRENTPOSITION:: "+currentPosition+"\t LOWERBOUND:: "+lowerBound+"\t UPPERBOUND:: "+upperBound);
-			//DEBUG System.out.println("CURRENT ELEMENT:: "+array[currentPosition]);
 			if(a[currentPosition] == elementFind){
 				return currentPosition;
 			}else if(lowerBound >= upperBound){
