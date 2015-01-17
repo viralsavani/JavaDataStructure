@@ -31,9 +31,6 @@ public class StackStringReverse {
 		
 		String sample1 = "ABCDEFGHIJK";
 		StringReverser reverse = new StringReverser(sample1);
-		
 		System.out.println(reverse.doReverse());
-
 	}
-
 }
