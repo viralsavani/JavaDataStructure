@@ -1,9 +1,9 @@
 package com.DataStructure.Stacks;
 
 class StackImplementation{
-	int maxSize;
-	int [] stack;
-	int top;
+	private int maxSize;
+	private int [] stack;
+	private int top;
 	
 	/* Replacing int with char we can use
 	 * stack implementation to reverse a word
