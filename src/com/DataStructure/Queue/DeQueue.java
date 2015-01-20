@@ -46,6 +46,7 @@ class DeQueueImplementation{
 				front = 0;
 			}
 			nItems--;
+			System.out.println("Deleted from Left"+temp);
 			return temp;
 		}else{
 			System.out.println("Queue is Empty");
@@ -60,6 +61,7 @@ class DeQueueImplementation{
 //				rear = -1;
 //			}
 			nItems--;
+			System.out.println("deleted from Right"+ temp);
 			return temp;
 		}else{
 			System.out.println("Queue is Empty");
@@ -89,6 +91,9 @@ public class DeQueue {
 		
 		deQueue.deleteLeft();
 		deQueue.insertRight(99);
+		deQueue.deleteRight();
+		deQueue.insertLeft(91);
+		
 		
 		
 
