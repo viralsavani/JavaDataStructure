@@ -42,8 +42,7 @@ class QueueImplementation{
 			}
 			queue[i+1] = data;
 			nItems++;
-		}
-			
+		}			
 	}
 	
 	public int remove() {
