@@ -88,7 +88,33 @@ class ArrayImplementation
 			a[in] = temp;
 		}
 	}
+		
+	public void shellSort(){
+		int inner;
+		int outer;
+		int temp;
+		
+		int h = 1;
+		while(h <= nElems / 3){
+			h = h * 3 + 1;
+		}
+		
+		while(h > 0){
+			for(outer = h; outer < nElems; outer++){
+				temp = a[outer];
+				inner = outer;
+				
+				while(inner > h-1 && a[inner - h] > temp){
+					a[inner] = a[inner - h];
+					inner = inner - h;
+				}
+				a[inner] = temp;
+			}
+			h = (h - 1) / 3;
+		}
+	}
 
+	
 	public int binarySearch(int elementFind){
 		int lowerBound = 0;
 		int upperBound = nElems-1;
@@ -162,6 +188,10 @@ class HighArray
 		
 		System.out.println("INSERTION SORT:: ");
 		array.insertionSort();
+		array.display();
+		
+		System.out.println("Shell SORT:: ");
+		array.shellSort();
 		array.display();
 
 		System.out.println("Binary Search 88 -> "+array.binarySearch(88));
