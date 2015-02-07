@@ -1,5 +1,12 @@
 package com.DataStructure.QuickSort;
 
+/**
+ * Here worst case only if all the elements in array
+ * are inversely sorted or the pivot is chosen in such
+ * a way that lead to partition of size N and N-1.
+ * To remove such inefficiency read QuickSortMedianOf3.java
+ */
+
 class ArrayImp{
 	private int[] theArray; 
 	private int nElems;
@@ -37,7 +44,12 @@ class ArrayImp{
 			}
 		}
 
-		//Swap the pivot with leftMost of the right subArray.
+		/**
+		 * At the end of each scan, the leftScan variable ends up 
+		 * pointing to the partition—that is, the left element of 
+		 * the right SubArray. The pivot is then swapped with the 
+		 * partition to put the pivot in its proper place
+		 */
 
 		temp = theArray[right];
 		theArray[right] = theArray[leftPtr];
@@ -52,9 +64,16 @@ class ArrayImp{
 		}else{
 			int pivot = theArray[right];
 
+			/**
+			 * algorithm partitions the array into two parts, 
+			 * then sorts each of these parts by partitioning 
+			 * it into two parts, and so on, creating smaller 
+			 * and smaller sub arrays
+			 */
+			
 			int partition = partitionIt(left, right, pivot);
-			recursiveQuickSort(left, partition-1);
-			recursiveQuickSort(partition+1, right);
+			recursiveQuickSort(left, partition-1);		//Sort Left SubArray
+			recursiveQuickSort(partition+1, right);		//Sort Right SubArray
 		}
 	}
 
@@ -67,7 +86,6 @@ class ArrayImp{
 	}
 
 	public void display(){
-	
 		System.out.print("Array -> ");
 		for(int i=0; i<nElems; i++){
 			System.out.print(theArray[i] + " ");
@@ -85,7 +103,6 @@ class QuickSortFinal {
 			int n = (int)(java.lang.Math.random()*99);
 			array.insert(n);
 		}
-				
 		array.display();
 		array.quickSort();
 		array.display();
