@@ -1,5 +1,13 @@
 package com.DataStructure.QuickSort;
 
+
+/**
+ * This is a very basic partitioning scheme that will be
+ * a part of Quick Sort. Here we are selecting a pivot
+ * element statically and is really not much effective
+ * But in Quick Sort clever pivot selection is needed.
+ */
+
 class ArrayImplementation{
 	private double[] theArray; 
 	private int nElems;
@@ -19,7 +27,7 @@ class ArrayImplementation{
 	}
 	
 	public void display(){
-		System.out.print("A=");
+		System.out.print("A -> ");
 		for(int j=0; j<nElems; j++){
 			System.out.print((int)theArray[j] + " ");
 		}
@@ -31,13 +39,20 @@ class ArrayImplementation{
 		int leftPtr = left-1;
 		int rightPtr = right + 1;
 		
+		/**
+		 * It is tempting to replace No Operation inside while with the
+		 * increment operation but it will result in increment only if the
+		 * condition is matched. We are needed to move the left and 
+		 * right pointer no matter what is the case.
+		 */
+		
 		while(true){
 			while(leftPtr < right && theArray[++leftPtr] < pivot){
-				;	// No Op
+				;	// No Operation
 			}
 			
 			while(rightPtr > left && theArray[--rightPtr] > pivot){
-				;	// No Op
+				;	// No Operation
 			}
 			
 			if(leftPtr >= rightPtr){
@@ -53,20 +68,20 @@ class ArrayImplementation{
 	}
 }
 
-public class ArrayPartitioning {
+class ArrayPartitioning {
 
 	public static void main(String[] args) {
-		int maxSize = 16; // array size
+		int maxSize = 10; // array size
 		ArrayImplementation array = new ArrayImplementation(maxSize);
 		
 		for(int j=0; j<maxSize; j++){ 
-			double n = (int)(java.lang.Math.random()*199);
+			double n = (int)(java.lang.Math.random()*99);
 			array.insert(n);
 		}
 		
 		array.display();
 		
-		double pivot = 99;
+		int pivot = 50;
 		System.out.print("Pivot is " + pivot);
 		
 		int size = array.size();
