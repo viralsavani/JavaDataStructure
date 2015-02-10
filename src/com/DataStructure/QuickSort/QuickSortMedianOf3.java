@@ -20,6 +20,15 @@ class ArraysImpl{
 		theArray[right] = temp;
 	}
 	
+	/**
+	 * This program uses another new method, manualSort(), to sort 
+	 * SubArrays of 3 or fewer elements. It returns immediately if the 
+	 * SubArray is 1 cell (or less), swaps the cells if necessary if 
+	 * the range is 2, and sorts 3 cells if the range is 3. The 
+	 * recQuickSort() routine can't be used to sort ranges of 2 or 3 
+	 * because median partitioning requires at least 4 cells.
+	 */
+	
 	private void manualSort(int left, int right){
 		int size = right - left +1;
 		
@@ -32,6 +41,8 @@ class ArraysImpl{
 			}
 			return;
 		}else{
+			
+			//For three elements
 			int center = right-1;
 			if(theArray[left] > theArray[center]){
 				swapInArray(left, center);
@@ -44,6 +55,21 @@ class ArraysImpl{
 			}
 		}
 	}
+	
+	/**
+	 * Besides picking the pivot more effectively, the median of 
+	 * three approach has an additional benefit: We can dispense 
+	 * with the rightPtr>left test in partitionIt() for the second 
+	 * inside while loop, leading to a small increase in the algorithm's speed.
+	 */
+	
+	/**
+	 * Another small benefit to median-of-three partitioning is 
+	 * that after the left, center, and right elements are sorted, 
+	 * the partition process doesn't need to examine these elements
+	 * again. The partition can begin at left+1 and right-1, 
+	 * because left and right have in effect already been partitioned.
+	 */
 	
 	private int partitionIt(int left, int right, int pivot){
 		int leftPtr = left;
