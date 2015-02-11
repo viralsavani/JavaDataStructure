@@ -5,7 +5,8 @@ import java.util.Random;
 
 /**
  * This is naive method to find Majority element where time complexity 
- * is O(N^2)
+ * is O(N^2).
+ * Only problem is that not every objects are comparable and sortable.
  */
 
 
