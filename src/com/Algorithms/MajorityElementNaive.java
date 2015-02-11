@@ -12,7 +12,7 @@ import java.util.Random;
 public class MajorityElementNaive {
 
 	public static void main(String[] args) {
-		int[] intArray = new int[21];
+		int[] intArray = new int[100001];
 		int maxElement = 0;
 
 		/**
@@ -33,10 +33,10 @@ public class MajorityElementNaive {
 		 * Printing a array
 		 */
 
-		for (int i : intArray) {
-			System.out.print(i+" ");
-		}
-		System.out.println();
+//		for (int i : intArray) {
+//			System.out.print(i+" ");
+//		}
+//		System.out.println();
 
 		/**
 		 * counter variable stores occurrence of each "holder" with 
@@ -46,6 +46,7 @@ public class MajorityElementNaive {
 		 * need to appear half+1 times.
 		 */
 
+		
 		for (int i = 0; i < intArray.length/2+1; i++) {
 			int counter = 0;
 			int holder = intArray[i];
@@ -61,6 +62,10 @@ public class MajorityElementNaive {
 			}
 		}
 		System.out.println("Max Element :: " + maxElement);
+		
+//		Max Element :: 9
+//		Time taken in ms :: 7599
+//		Input Size: 100001
 	}
 
 }
