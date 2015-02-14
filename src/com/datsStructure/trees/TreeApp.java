@@ -1,5 +1,17 @@
 package com.datsStructure.trees;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+/**
+ * Time needed to carry out the common tree operations is proportional to the
+ * base-2 log of N. In Big-O notation we say such operations take O(logN) time.
+ * Except for tree traversal.
+ */
+
+
 /**
  * This is a class of node objects. These objects 
  * contain the data representing the objects being 
@@ -30,8 +42,7 @@ class Node{
  * need fields for the other nodes because they are all accessed from the root.
  */
 
-class Tree
-{
+class Tree {
 	private Node root; 		
 
 	public Tree(){
@@ -83,7 +94,7 @@ class Tree
 				parent = current;
 				if(key < current.key){
 					current = current.leftChild;
-					if(current.leftChild == null){
+					if(current == null){
 						parent.leftChild = newNode;
 						return;
 					}
@@ -106,6 +117,11 @@ class Tree
 	 * as an argument is null.
 	 * It may not be obvious, but for each node, the routine traverses 
 	 * the node's left subtree, visits the node, and traverses the right subtree.
+	 * 
+	 * Traversing is not as fast as the other operations. However, traversals 
+	 * are probably not very commonly carried out in a typical large database. 
+	 * They're more appropriate when a tree is used as an aid to parsing algebraic 
+	 * or similar expressions, which are probably not too long anyway.
 	 */
 
 	private void inOrderTraversal(Node localRoot){
@@ -121,20 +137,38 @@ class Tree
 
 		if(localRoot != null){
 			localRoot.displayNode();
-			inOrderTraversal(localRoot.leftChild);
-			inOrderTraversal(localRoot.rightChild);
+			preOrderTraversal(localRoot.leftChild);
+			preOrderTraversal(localRoot.rightChild);
 		}
 	}
 
 	private void postOrderTraversal(Node localRoot){
 
 		if(localRoot != null){
-			inOrderTraversal(localRoot.leftChild);
-			inOrderTraversal(localRoot.rightChild);
+			postOrderTraversal(localRoot.leftChild);
+			postOrderTraversal(localRoot.rightChild);
 			localRoot.displayNode();
 		}
 	}
+	
+	public void traverse(String traversalType)	
+	{	
+		switch(traversalType)	
+		{	
+		case "preOrder": System.out.print("\nPreorder traversal: ");	
+		preOrderTraversal(root);	
+		break;	
+		case "inOrder": System.out.print("\nInorder traversal:  ");	
+		inOrderTraversal(root);	
+		break;	
+		case "postOrder": System.out.print("\nPostorder traversal: ");	
+		postOrderTraversal(root);	
+		break;	
+		}	
+		System.out.println();	
+	}
 
+	
 	public Node minimum(){
 		Node current = root;
 		Node minimumNode = null;
@@ -153,7 +187,7 @@ class Tree
 
 		/**
 		 * First step in deleting a node is to find the node which
-		 * is shown below
+		 * is shown below.
 		 */
 		while(current.key != key){
 			parent = current;
@@ -172,7 +206,7 @@ class Tree
 
 
 		/**
-		 * State where node to delete is leave node
+		 * State where node to delete is leaf node.
 		 */
 		if(current.leftChild == null && current.rightChild == null){
 			if(current == root){
@@ -212,7 +246,7 @@ class Tree
 			}
 		}
 		/**
-		 * Final case where node to be deleted has two childs.
+		 * Final case where node to be deleted has two children.
 		 */
 		else{
 			Node successor = getSuccessor(current);		// Get the successor node of the Node to delete
@@ -245,14 +279,148 @@ class Tree
 		}
 		return successor;
 	}
-
+	
+	
+	public void displayTree(){
+		
+		Stack<Node> globalStack = new Stack<Node>();	
+		globalStack.push(root);	
+		int nBlanks = 40;	
+		boolean isRowEmpty = false;	
+		System.out.println("......................................................");	
+		while(isRowEmpty==false){
+			
+			Stack<Node> localStack = new Stack<Node>();	
+			isRowEmpty = true;	
+			for(int j=0; j<nBlanks; j++){	
+				System.out.print(' ');	
+			}
+			while(globalStack.isEmpty()==false)	
+			{	
+				Node temp = (Node)globalStack.pop();	
+				if(temp != null){
+					
+					System.out.print(temp.key);	
+					localStack.push(temp.leftChild);	
+					localStack.push(temp.rightChild);	
+					if(temp.leftChild != null || temp.rightChild != null){	
+						isRowEmpty = false;	
+					}
+				}	
+				else{	
+				
+					System.out.print("--");	
+					localStack.push(null);	
+					localStack.push(null);	
+				}	
+				for(int j=0; j<nBlanks*2-2; j++){
+					System.out.print(' ');	
+				}
+			}
+			System.out.println();	
+			nBlanks /= 2;	
+			while(localStack.isEmpty()==false){
+				globalStack.push(localStack.pop());
+			}
+		}
+		System.out.println("......................................................");	
+	}
 }
 
 public class TreeApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
+		int value;	
+		String input;
+		Tree theTree = new Tree();	
+		theTree.insert(50, 15);	
+		theTree.insert(25, 12);	
+		theTree.insert(75, 17);	
+		theTree.insert(12, 15);	
+		theTree.insert(37, 12);	
+		theTree.insert(43, 17);	
+		theTree.insert(30, 15);	
+		theTree.insert(33, 12);	
+		theTree.insert(87, 17);	
+		theTree.insert(93, 15);	
+		theTree.insert(97, 15);	
 
+		
+		while(true){
+			
+			putText("Enter first letter of ");	
+			putText("show, insert, find, delete, or traverse: ");	
+			int choice = getChar();	
+			switch(choice)	
+			{	
+			case 's':	
+				theTree.displayTree();	
+				break;	
+			case 'i':	
+				putText("Enter Key to insert: ");	
+				value = getInt();	
+				putText("Enter Data to insert: ");
+				int data = getInt();
+				theTree.insert(value, data);	
+				break;	
+			case 'f':	
+				putText("Enter Key to find: ");	
+				value = getInt();	
+				Node found = theTree.find(value);	
+				if(found != null)	
+				{	
+					putText("Found: ");	
+					found.displayNode();	
+					putText("\n");	
+				}	
+				else	
+					putText("Could not find " + value + '\n');	
+				break;	
+			case 'd':	
+				putText("Enter Key to delete: ");	
+				value = getInt();	
+				boolean didDelete = theTree.delete(value);	
+				if(didDelete)	
+					putText("Deleted " + value + '\n');	
+				else	
+					putText("Could not delete " + value + '\n');	
+				break;	
+			case 't':	
+				putText("Enter type inOrder, preOrder or postOrder : ");	
+				input = getString();	
+				theTree.traverse(input);	
+				break;	
+			default:	
+				putText("Invalid entry\n");	
+			}	
+		}
+	}
+	
+	public static void putText(String s)	
+	{	
+		System.out.print(s);	
+		System.out.flush();	
+	}	
+	
+	public static String getString() throws IOException	
+	{	
+		InputStreamReader isr = new InputStreamReader(System.in);	
+		BufferedReader br = new BufferedReader(isr);	
+		String s = br.readLine();	
+		return s;	
+	}
+	
+	public static char getChar() throws IOException	
+	{	
+		String s = getString();	
+		return s.charAt(0);	
+	}
+	
+	public static int getInt() throws IOException	
+	{	
+		String s = getString();	
+		return Integer.parseInt(s);	
 	}
 
 }
