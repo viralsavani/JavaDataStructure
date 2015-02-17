@@ -1,0 +1,99 @@
+Enter size of hash table: 
+12
+
+Enter initial number of items: 
+8
+
+Enter first letter of 
+
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 39->71 ** ** 18->21 7->85 ** 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+f
+Enter key value to find: 
+39
+Found 39
+
+Enter first letter of 
+show, insert, delete, or find: 
+i
+Enter key value to insert: 
+39
+Enter data value to insert: 
+100
+
+Enter first letter of 
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 39->71 39->100 ** 18->21 7->85 ** 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+i
+Enter key value to insert: 
+39
+Enter data value to insert: 
+101
+
+Enter first letter of 
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 39->71 39->100 39->101 18->21 7->85 ** 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+d
+Enter key value to delete: 
+39
+
+Enter first letter of 
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 -1->-1 39->100 39->101 18->21 7->85 ** 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+i
+Enter key value to insert: 
+39
+Enter data value to insert: 
+102
+
+Enter first letter of 
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 39->102 39->100 39->101 18->21 7->85 ** 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+f
+Enter key value to find: 
+99
+Could not find 99
+
+Enter first letter of 
+show, insert, delete, or find: 
+i
+Enter key value to insert: 
+99
+Enter data value to insert: 
+104
+
+Enter first letter of 
+show, insert, delete, or find: 
+s
+Table: 84->88 ** 62->67 39->102 39->100 39->101 18->21 7->85 99->104 45->99 106->95 22->62 
+
+Enter first letter of 
+show, insert, delete, or find: 
+f
+
+Enter key value to find: 
+99
+Found 99
+
+Enter first letter of 
+show, insert, delete, or find: 
