@@ -1,4 +1,4 @@
-package com.datsStructure.trees;
+package com.DataStructure.trees;
 
 import java.io.BufferedReader;
 import java.io.IOException;
