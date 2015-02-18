@@ -15,6 +15,19 @@ class HashDataItemDoubleHashing{
 	}
 }
 
+
+/**
+ * In double hashing the probe sequence generated depends on the key which results in
+ * numbers with different keys that hash to the same index will use different probe 
+ * sequences. 
+ * The solution is to hash the key a second time, using a different hash function, 
+ * and use the result as the step size. For a given key the step size remains constant 
+ * throughout a probe, but it's different for different keys.
+ * 
+ * Double hashing requires that the size of the hash table is a prime number.
+ * Using a prime number as the array size makes it impossible for any number to divide 
+ * it evenly, so the probe sequence will eventually check every cell.
+ */
 class HashTableDoubleHashing{
 	private HashDataItemDoubleHashing[] hashArray;
 	int arraySize;
@@ -43,6 +56,13 @@ class HashTableDoubleHashing{
 		return key % arraySize; 
 	}
 
+	
+	/**
+	 * Secondary hash function must have certain characteristics:
+	 * It must not be the same as the primary hash function.
+	 * It must never output a 0 (otherwise there would be no step; every probe would 
+	 * land on the same cell, and the algorithm would go into an endless loop).
+	 */
 	public int doubleHashFunction(int key){
 		// Array size must be relatively prime to 5, 4, 3 and 2
 		return 5 - key % 5;

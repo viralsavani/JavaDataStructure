@@ -120,7 +120,7 @@ public class HashTableApp {
 			theHashTable.insert(aDataItem);
 		}
 		
-		while(true) // interact with user
+		while(true)
 		{
 			putText("Enter first letter of ");
 			putText("show, insert, delete, or find: ");
