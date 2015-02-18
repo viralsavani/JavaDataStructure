@@ -15,6 +15,12 @@ class HashDataItemLinearProbe{
 	}
 }
 
+/**
+ * Linear probing approach to solve problem of same hash value for different key suffers
+ * from the problem of clustering, as the size of cluster grows the efficiency of Hash Table
+ * decreases dramatically.
+ * This problem of clustering can be overcome with help of double hashing.
+ */
 class HashTableLinearProbe{
 	private HashDataItemLinearProbe[] hashArray;		// array holds hash table
 	private int arraySize;
