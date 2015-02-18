@@ -22,12 +22,25 @@ public class MaxWithinWindow {
 		int windowSize = 7;
 		int windowMax = -1;
 		
+		/**
+		 * Inserting random elements in array who's values in not more than
+		 * 100
+		 */
+		
 		for(int i = 0; i < array.length; i++){
 			array[i] = new Random().nextInt(100);
 		}
 		
 		for(int i = 0; i < array.length-windowSize+1; i++){
 			windowMax = 0;			
+			
+			/**
+			 * Here brute force is used for finding maximum element within window where
+			 * each element is scanned for finding maximum.
+			 * Consider if the window size is very large the number of comparisons
+			 * is very high.
+			 */
+			
 			for(int j = i; j < i+windowSize; j++){
 				System.out.print(array[j]+" ");
 				if(array[j] > windowMax){
