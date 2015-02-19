@@ -15,6 +15,15 @@ class LinkDataItem{
 	}
 }
 
+
+/**
+ * Circular LinkList is where last element in list points to first one.
+ * It kind of forms a cycle.
+ * Only sequential movement is possible with no direct access to inBetween elements
+ * thus resulting in methods like insertFirst() and no methods like insertAfter() or
+ * insertBefore()
+ */
+
 class SinglyCircularLinkList{
 	private LinkDataItem first;
 	private LinkDataItem last;
@@ -44,11 +53,24 @@ class SinglyCircularLinkList{
 	}
 
 	public LinkDataItem findLink(int key){
+		
+		/**
+		 * Check if the link to find is first
+		 */
 		if(first.key == key){
 			return first;
-		}else if(last.key == key){
+		}
+		
+		/**
+		 * Check if the link to find is last
+		 */
+		else if(last.key == key){
 			return last;
 		}else{
+			
+			/**
+			 * Else check all the element except first and last.
+			 */
 			LinkDataItem current = first.next;
 
 			while(current != last){
@@ -112,9 +134,15 @@ class SinglyCircularLinkList{
 		System.out.print("");
 	}
 	
+	
+	/**
+	 * Method developed just for debugging purpose to check if the list
+	 * is actually circular
+	 */
 	public void displayCirculaly(){
 		LinkDataItem current = first;
 		int displayCounter = size*2;
+		
 		while(displayCounter >0){
 			current.displayLink();
 			current = current.next;
