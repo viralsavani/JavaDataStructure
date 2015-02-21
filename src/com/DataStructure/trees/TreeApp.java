@@ -44,6 +44,7 @@ class Node{
 
 class Tree {
 	private Node root; 		
+	private int level = 0;
 
 	public Tree(){
 		root = null;
@@ -150,7 +151,7 @@ class Tree {
 			localRoot.displayNode();
 		}
 	}
-	
+
 	public void traverse(String traversalType)	
 	{	
 		switch(traversalType)	
@@ -168,7 +169,7 @@ class Tree {
 		System.out.println();	
 	}
 
-	
+
 	public Node minimum(){
 		Node current = root;
 		Node minimumNode = null;
@@ -279,17 +280,70 @@ class Tree {
 		}
 		return successor;
 	}
+
+
+	/**
+	 * Prints Node (Key,value) at given level.
+	 * @args root node, level to print
+	 */
+	public void printGivenLevel(Node root,int level){
+		if(root == null){
+			return;
+		}else{
+			if(level == 1){
+				root.displayNode();
+				System.out.print("\t");
+			}
+			if(level > 1){
+				printGivenLevel(root.leftChild, level-1);
+				printGivenLevel(root.rightChild, level-1);
+			}
+		}
+	}
+
 	
-	
+	/**
+	 * Breadth First traversal uses recursive approach which can be inefficient for large data.
+	 * Queue can be used instead of stack which dramatically increases the efficiency by 
+	 * removing recursion and using iterative approach.
+	 */
+	public void breadthFirstTraversal(){
+		int level = height(root)+1;
+		int levelInverse = 1;
+		while(levelInverse <= level){
+			System.out.print("LEVEL :: "+levelInverse+"  ");
+			printGivenLevel(root, levelInverse);
+			System.out.println();
+			levelInverse++;
+		}		
+	}
+
+
+	/**
+	 * Return height i.e. number of edges on the longest downward path between the root and a leaf
+	 * of the tree.
+	 */
+	public int heightOfTree(){
+		return height(root);
+	}
+
+	private int height(Node node){
+		if(node == null){
+			return -1;
+		}else{
+			return Math.max(height(node.leftChild), height(node.rightChild))+1;
+		}
+	}
+
 	public void displayTree(){
-		
+
 		Stack<Node> globalStack = new Stack<Node>();	
 		globalStack.push(root);	
 		int nBlanks = 40;	
 		boolean isRowEmpty = false;	
 		System.out.println("......................................................");	
 		while(isRowEmpty==false){
-			
+
 			Stack<Node> localStack = new Stack<Node>();	
 			isRowEmpty = true;	
 			for(int j=0; j<nBlanks; j++){	
@@ -299,7 +353,7 @@ class Tree {
 			{	
 				Node temp = (Node)globalStack.pop();	
 				if(temp != null){
-					
+
 					System.out.print(temp.key);	
 					localStack.push(temp.leftChild);	
 					localStack.push(temp.rightChild);	
@@ -308,7 +362,7 @@ class Tree {
 					}
 				}	
 				else{	
-				
+
 					System.out.print("--");	
 					localStack.push(null);	
 					localStack.push(null);	
@@ -346,11 +400,10 @@ public class TreeApp {
 		theTree.insert(93, 15);	
 		theTree.insert(97, 15);	
 
-		
 		while(true){
-			
+
 			putText("Enter first letter of ");	
-			putText("show, insert, find, delete, or traverse: ");	
+			putText("show, insert, find, delete, traverse, breadthFirstTravesal or heightOfTree : ");	
 			int choice = getChar();	
 			switch(choice)	
 			{	
@@ -390,19 +443,25 @@ public class TreeApp {
 				putText("Enter type inOrder, preOrder or postOrder : ");	
 				input = getString();	
 				theTree.traverse(input);	
-				break;	
+				break;
+			case 'b':			
+				theTree.breadthFirstTraversal();	
+				break;
+			case 'h':			
+				System.out.println("Height of tree :: "+theTree.heightOfTree());	
+				break;
 			default:	
 				putText("Invalid entry\n");	
 			}	
 		}
 	}
-	
+
 	public static void putText(String s)	
 	{	
 		System.out.print(s);	
 		System.out.flush();	
 	}	
-	
+
 	public static String getString() throws IOException	
 	{	
 		InputStreamReader isr = new InputStreamReader(System.in);	
@@ -410,13 +469,13 @@ public class TreeApp {
 		String s = br.readLine();	
 		return s;	
 	}
-	
+
 	public static char getChar() throws IOException	
 	{	
 		String s = getString();	
 		return s.charAt(0);	
 	}
-	
+
 	public static int getInt() throws IOException	
 	{	
 		String s = getString();	
