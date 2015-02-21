@@ -45,7 +45,7 @@ class Node{
 class Tree {
 	private Node root; 		
 	private int size = 0;
-	
+
 
 	public Tree(){
 		root = null;
@@ -186,7 +186,7 @@ class Tree {
 
 	public boolean delete(int key){
 		Node current = root;
-		Node parent = null;
+		Node parent = root;
 		boolean isLeftChild = true;
 
 
@@ -231,23 +231,20 @@ class Tree {
 		else if(current.leftChild == null){						// No left child
 			if(current == root){
 				root = current.rightChild;
+			}else if(isLeftChild){								// Is the node being deleted is leftChild of parent
+				parent.leftChild = current.rightChild;		
 			}else{
-				if(isLeftChild){								// Is the node being deleted is leftChild of parent
-					parent.leftChild = current.rightChild;		
-				}else{
-					parent.rightChild = current.rightChild;
-				}
+				parent.rightChild = current.rightChild;
 			}
+
 		}
 		else if(current.rightChild == null){					// No right child
 			if(current == root){
 				root = current.leftChild;
+			}else if(isLeftChild){
+				parent.leftChild = current.leftChild;
 			}else{
-				if(isLeftChild){
-					parent.leftChild = current.leftChild;
-				}else{
-					parent.rightChild = current.leftChild;
-				}
+				parent.rightChild = current.leftChild;
 			}
 		}
 		/**
@@ -281,7 +278,7 @@ class Tree {
 
 		if(successor != deleteNode.rightChild){
 			successorParent.leftChild = successor.rightChild;		// replaces the successor with its right subtree
-			successor.rightChild = deleteNode.leftChild;			// Link of to right sub tree
+			successor.rightChild = deleteNode.rightChild;			// Link of to right sub tree
 		}
 		return successor;
 	}
@@ -306,7 +303,7 @@ class Tree {
 		}
 	}
 
-	
+
 	/**
 	 * Breadth First traversal uses recursive approach which can be inefficient for large data.
 	 * Queue can be used instead of stack which dramatically increases the efficiency by 
@@ -343,7 +340,7 @@ class Tree {
 	public int size(){
 		return size;
 	}
-	
+
 	public void displayTree(){
 
 		Stack<Node> globalStack = new Stack<Node>();	
@@ -351,18 +348,18 @@ class Tree {
 		int nBlanks = 40;	
 		boolean isRowEmpty = false;	
 		System.out.println("......................................................");
-		
+
 		while(isRowEmpty == false){
 
 			Stack<Node> localStack = new Stack<Node>();	
 			isRowEmpty = true;	
-			
+
 			for(int j=0; j<nBlanks; j++){	
 				System.out.print(' ');	
 			}
-			
+
 			while(globalStack.isEmpty() == false){
-				
+
 				Node temp = (Node)globalStack.pop();	
 				if(temp != null){
 
@@ -470,30 +467,25 @@ public class TreeApp {
 		}
 	}
 
-	public static void putText(String s)	
-	{	
+	public static void putText(String s){	
 		System.out.print(s);	
 		System.out.flush();	
 	}	
 
-	public static String getString() throws IOException	
-	{	
+	public static String getString() throws IOException{	
 		InputStreamReader isr = new InputStreamReader(System.in);	
 		BufferedReader br = new BufferedReader(isr);	
 		String s = br.readLine();	
 		return s;	
 	}
 
-	public static char getChar() throws IOException	
-	{	
+	public static char getChar() throws IOException {	
 		String s = getString();	
 		return s.charAt(0);	
 	}
 
-	public static int getInt() throws IOException	
-	{	
+	public static int getInt() throws IOException {	
 		String s = getString();	
 		return Integer.parseInt(s);	
 	}
-
 }
