@@ -44,7 +44,8 @@ class Node{
 
 class Tree {
 	private Node root; 		
-	private int level = 0;
+	private int size = 0;
+	
 
 	public Tree(){
 		root = null;
@@ -87,6 +88,7 @@ class Tree {
 
 		if(root == null){
 			root = newNode;
+			size++;
 		}else{
 			Node current = root;
 			Node parent;
@@ -97,12 +99,14 @@ class Tree {
 					current = current.leftChild;
 					if(current == null){
 						parent.leftChild = newNode;
+						size++;
 						return;
 					}
 				}else{
 					current = current.rightChild;
 					if(current == null){
 						parent.rightChild = newNode;
+						size++;
 						return;
 					}
 				}
@@ -260,6 +264,7 @@ class Tree {
 			}
 			successor.leftChild = current.leftChild;
 		}
+		size--;
 		return true;
 	}
 
@@ -335,22 +340,29 @@ class Tree {
 		}
 	}
 
+	public int size(){
+		return size;
+	}
+	
 	public void displayTree(){
 
 		Stack<Node> globalStack = new Stack<Node>();	
 		globalStack.push(root);	
 		int nBlanks = 40;	
 		boolean isRowEmpty = false;	
-		System.out.println("......................................................");	
-		while(isRowEmpty==false){
+		System.out.println("......................................................");
+		
+		while(isRowEmpty == false){
 
 			Stack<Node> localStack = new Stack<Node>();	
 			isRowEmpty = true;	
+			
 			for(int j=0; j<nBlanks; j++){	
 				System.out.print(' ');	
 			}
-			while(globalStack.isEmpty()==false)	
-			{	
+			
+			while(globalStack.isEmpty() == false){
+				
 				Node temp = (Node)globalStack.pop();	
 				if(temp != null){
 
@@ -362,7 +374,6 @@ class Tree {
 					}
 				}	
 				else{	
-
 					System.out.print("--");	
 					localStack.push(null);	
 					localStack.push(null);	
@@ -373,7 +384,7 @@ class Tree {
 			}
 			System.out.println();	
 			nBlanks /= 2;	
-			while(localStack.isEmpty()==false){
+			while(localStack.isEmpty() == false){
 				globalStack.push(localStack.pop());
 			}
 		}
@@ -403,7 +414,7 @@ public class TreeApp {
 		while(true){
 
 			putText("Enter first letter of ");	
-			putText("show, insert, find, delete, traverse, breadthFirstTravesal or heightOfTree : ");	
+			putText("show, insert, find, delete, traverse, breadthFirstTravesal, heightOfTree or Size : ");	
 			int choice = getChar();	
 			switch(choice)	
 			{	
@@ -449,6 +460,9 @@ public class TreeApp {
 				break;
 			case 'h':			
 				System.out.println("Height of tree :: "+theTree.heightOfTree());	
+				break;
+			case 'S':
+				System.out.println("Size of tree :: "+theTree.size());
 				break;
 			default:	
 				putText("Invalid entry\n");	
