@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 /**
  * Time needed to carry out the common tree operations is proportional to the
  * base-2 log of N. In Big-O notation we say such operations take O(logN) time.
@@ -302,6 +304,29 @@ class Tree {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Compares two trees recurively from root to leaf in breadth first style and 
+	 * stops at not equal nodes.
+	 * @args root1-root of tree 1, root2-root of tree 2
+	 */
+	public static boolean treeCompare(Node root1, Node root2){
+		
+		if(root1 == root2){
+			return true;
+		}
+		if(root1 == null || root2 == null){
+			return false;
+		}
+		
+		
+		return (	(root1.data == root2.data) && 
+					(root1.key == root2.key) && 
+					(treeCompare(root1.leftChild,root2.leftChild)) && 
+					(treeCompare(root1.rightChild, root2.rightChild))
+				);
+	}
 
 
 	/**
@@ -312,6 +337,7 @@ class Tree {
 	public void breadthFirstTraversal(){
 		int level = height(root)+1;
 		int levelInverse = 1;
+		
 		while(levelInverse <= level){
 			System.out.print("LEVEL :: "+levelInverse+"  ");
 			printGivenLevel(root, levelInverse);
@@ -340,7 +366,7 @@ class Tree {
 	public int size(){
 		return size;
 	}
-
+	
 	public void displayTree(){
 
 		Stack<Node> globalStack = new Stack<Node>();	
@@ -393,6 +419,7 @@ public class TreeApp {
 
 	public static void main(String[] args) throws Exception {
 
+				
 		int value;	
 		String input;
 		Tree theTree = new Tree();	
@@ -408,6 +435,24 @@ public class TreeApp {
 		theTree.insert(93, 15);	
 		theTree.insert(97, 15);	
 
+		Tree theOtherTree = new Tree();
+		theOtherTree.insert(50, 15);	
+		theOtherTree.insert(25, 12);	
+		theOtherTree.insert(75, 17);	
+		theOtherTree.insert(12, 15);	
+		theOtherTree.insert(37, 12);	
+		theOtherTree.insert(43, 17);	
+		theOtherTree.insert(30, 15);	
+		theOtherTree.insert(33, 2);	
+		theOtherTree.insert(87, 7);	
+		theOtherTree.insert(93, 5);	
+		theOtherTree.insert(97, 15);
+		
+		Node root1 = theTree.find(50);
+		Node root2 = theOtherTree.find(50);
+		System.out.println("Trees are Same? "+Tree.treeCompare(root1, root2));
+		
+		
 		while(true){
 
 			putText("Enter first letter of ");	
