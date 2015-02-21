@@ -3,9 +3,9 @@ package com.DataStructure.trees;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 /**
  * Time needed to carry out the common tree operations is proportional to the
@@ -327,14 +327,16 @@ class Tree {
 					(treeCompare(root1.rightChild, root2.rightChild))
 				);
 	}
+	
+
 
 
 	/**
-	 * Breadth First traversal uses recursive approach which can be inefficient for large data.
+	 * Level traversal uses recursive approach which can be inefficient for large data.
 	 * Queue can be used instead of stack which dramatically increases the efficiency by 
 	 * removing recursion and using iterative approach.
 	 */
-	public void breadthFirstTraversal(){
+	public void levelTraversal(){
 		int level = height(root)+1;
 		int levelInverse = 1;
 		
@@ -366,6 +368,39 @@ class Tree {
 	public int size(){
 		return size;
 	}
+	
+
+	/**
+	 * Prints all the paths from root to all leaves recursively.
+	 */
+	public void printAllPath(Node node,List<Node> nodelist)
+	{
+		if(node != null)
+		{
+			nodelist.add(node);
+			if(node.leftChild != null)
+			{
+				printAllPath(node.leftChild,nodelist);
+			}
+			if(node.rightChild != null)
+			{
+				printAllPath(node.rightChild,nodelist);
+			}
+			else if(node.leftChild == null && node.rightChild == null)
+			{
+
+				for(int i=0;i<nodelist.size();i++)
+				{
+					
+					nodelist.get(i).displayNode();
+					System.out.print("  ");
+				}
+				System.out.println();
+			}
+			nodelist.remove(node);
+		}
+	}
+	
 	
 	public void displayTree(){
 
@@ -419,7 +454,7 @@ public class TreeApp {
 
 	public static void main(String[] args) throws Exception {
 
-				
+		int control = -999;
 		int value;	
 		String input;
 		Tree theTree = new Tree();	
@@ -430,10 +465,16 @@ public class TreeApp {
 		theTree.insert(37, 12);	
 		theTree.insert(43, 17);	
 		theTree.insert(30, 15);	
-		theTree.insert(33, 12);	
 		theTree.insert(87, 17);	
 		theTree.insert(93, 15);	
-		theTree.insert(97, 15);	
+		theTree.insert(13, 13);
+		theTree.insert(11, 11);
+		theTree.insert(70, 70);
+		theTree.insert(72, 72);
+		theTree.insert(65, 65);
+		theTree.insert(80, 80);
+		
+		
 
 		Tree theOtherTree = new Tree();
 		theOtherTree.insert(50, 15);	
@@ -443,20 +484,29 @@ public class TreeApp {
 		theOtherTree.insert(37, 12);	
 		theOtherTree.insert(43, 17);	
 		theOtherTree.insert(30, 15);	
-		theOtherTree.insert(33, 2);	
+		theOtherTree.insert(29, 2);	
 		theOtherTree.insert(87, 7);	
 		theOtherTree.insert(93, 5);	
-		theOtherTree.insert(97, 15);
 		
-		Node root1 = theTree.find(50);
-		Node root2 = theOtherTree.find(50);
-		System.out.println("Trees are Same? "+Tree.treeCompare(root1, root2));
 		
+//		Node root1 = theTree.find(50);
+//		Node root2 = theOtherTree.find(50);
+//		System.out.println("Trees are Same? "+Tree.treeCompare(root1, root2));
+		
+		theOtherTree.displayTree();
+		
+//		theTree.printAllPaths();
+//		
+//		theTree.levelTraversal();
+		
+		Node root1 = theOtherTree.find(50);
+		List<Node>nodeList = new ArrayList<Node>(theOtherTree.size());
+		theOtherTree.printAllPath(root1, nodeList);
 		
 		while(true){
 
 			putText("Enter first letter of ");	
-			putText("show, insert, find, delete, traverse, breadthFirstTravesal, heightOfTree or Size : ");	
+			putText("show, insert, find, delete, traverse, levelTravesal, heightOfTree or Size : ");	
 			int choice = getChar();	
 			switch(choice)	
 			{	
@@ -497,8 +547,8 @@ public class TreeApp {
 				input = getString();	
 				theTree.traverse(input);	
 				break;
-			case 'b':			
-				theTree.breadthFirstTraversal();	
+			case 'l':			
+				theTree.levelTraversal();	
 				break;
 			case 'h':			
 				System.out.println("Height of tree :: "+theTree.heightOfTree());	
