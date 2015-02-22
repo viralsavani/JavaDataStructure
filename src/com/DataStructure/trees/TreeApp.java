@@ -319,8 +319,6 @@ class Tree {
 	}
 	
 
-
-
 	/**
 	 * Level traversal uses recursive approach which can be inefficient for large data.
 	 * Queue can be used instead of stack which dramatically increases the efficiency by 
@@ -430,9 +428,7 @@ class Tree {
 			return rightStatus;
 		}
 	}
-	
 		
-	
 	public void displayTree(){
 		Stack<Node> globalStack = new Stack<Node>();	
 		globalStack.push(root);	
@@ -475,6 +471,49 @@ class Tree {
 		}
 		System.out.println("......................................................");	
 	}
+
+
+	/**
+	 * The lowest common ancestor between two nodes n1 and n2 is defined as the lowest 
+	 * node in T that has both n1 and n2 as descendants.
+	 * The solution presented is iterative which takes O(n) where n number of nodes visited.
+	 */
+	public Node lowestCommonAncestor(Node root, int key1, int key2){
+		this.root = root;
+		Node current = root;
+		
+		while(current != null){
+			if(current.key > key1 && current.key > key2 ){
+				current = current.leftChild;
+			}else if(current.key < key1 && current.key < key2){
+				current = current.rightChild;
+			}else{
+				return current;
+			}
+		}
+		return null;
+	}
+
+	
+	public void inOrderIterative(){
+		inOrderIterativeHelper(root);
+		System.out.println();
+	}
+	
+	private void inOrderIterativeHelper(Node node){
+		Stack<Node> nodeStack = new Stack<Node>();
+		while(!(nodeStack.isEmpty()) || node != null){
+			if(node != null){
+				nodeStack.push(node);
+				node = node.leftChild;
+			}else{
+				node = nodeStack.pop();
+				node.displayNode();
+				node = node.rightChild;
+			}
+		}
+	}
+	
 }
 
 public class TreeApp {
@@ -488,7 +527,7 @@ public class TreeApp {
 		theTree.insert(25, 12);	
 		theTree.insert(75, 17);	
 		theTree.insert(12, 15);	
-		theTree.insert(37, 12);	
+//		theTree.insert(37, 12);	
 		theTree.insert(43, 17);	
 		theTree.insert(30, 15);	
 		theTree.insert(87, 17);	
@@ -498,9 +537,12 @@ public class TreeApp {
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
 		theTree.insert(65, 65);
-		theTree.insert(80, 80);
+		//theTree.insert(80, 80);
 
 		Node root1 = theTree.find(50);	
+		theTree.displayTree();
+		
+		theTree.inOrderIterative();
 		
 		while(true){
 			putText("Enter command for ");	
