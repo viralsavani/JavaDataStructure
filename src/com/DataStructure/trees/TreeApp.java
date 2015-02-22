@@ -393,19 +393,45 @@ class Tree {
 	 * in @args sum.
 	 */
 	public boolean hasPathSum(int sum) { 
-		
 		 return(hasPathSum(root, sum)); 
-		}
-		boolean hasPathSum(Node node, int sum) { 
-		  if (node == null) { 
-		    return(sum == 0); 
-		  } 
-		  else { 
-		    int intermediateSum = sum - node.data; 
-		    return(hasPathSum(node.leftChild, intermediateSum) || hasPathSum(node.rightChild, intermediateSum)); 
-		  } 
+	}
+	boolean hasPathSum(Node node, int sum) { 
+		if (node == null) { 
+			return(sum == 0); 
 		} 
+		else { 
+			int intermediateSum = sum - node.data; 
+			return(hasPathSum(node.leftChild, intermediateSum) || hasPathSum(node.rightChild, intermediateSum)); 
+		} 
+	} 
+
+	/**
+	 * Tests if a tree meets the conditions to be a binary search tree (BST). 
+	 * Uses the efficient recursive helper. 
+	 */
+	public boolean isBinaryTree(){
+		return isBinaryTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
 	
+	/**
+	 * Efficient BST helper -- Given a node, and min and max values, recurs down the tree 
+	 * to verify that it is a BST, and that all its nodes are within the min..max range. 
+	 * Works in O(n) time -- visits each node only once.
+	 */
+	private boolean isBinaryTree(Node node, int min, int max){
+		if(node == null){
+			return true;
+		}else{
+			boolean leftStatus = isBinaryTree(node.leftChild, min, node.data);
+			if(!leftStatus){
+				return false;
+			}
+			boolean rightStatus = isBinaryTree(node.rightChild, node.data, max);
+			return rightStatus;
+		}
+	}
+	
+		
 	
 	public void displayTree(){
 		Stack<Node> globalStack = new Stack<Node>();	
@@ -478,10 +504,13 @@ public class TreeApp {
 		
 		while(true){
 			putText("Enter command for ");	
-			putText("show, insert, find, delete, traverse, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
+			putText("show, insert, find, delete, traverse, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
 			String choice = getString();
 			
 			switch(choice){	
+			case "isBinaryTree":
+				System.out.println("Is tree binary ? "+theTree.isBinaryTree());
+				break;
 			case "printAllPath":
 				List<Node> nodeList = new ArrayList<>(theTree.size());
 				theTree.printAllPath(root1,nodeList);
