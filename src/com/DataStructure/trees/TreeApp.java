@@ -287,28 +287,11 @@ class Tree {
 	}
 
 
-	/**
-	 * Prints Node (Key,value) at given level.
-	 * @args root node, level to print
-	 */
-	public void printGivenLevel(Node root,int level){
-		if(root == null){
-			return;
-		}else{
-			if(level == 1){
-				root.displayNode();
-				System.out.print("\t");
-			}
-			if(level > 1){
-				printGivenLevel(root.leftChild, level-1);
-				printGivenLevel(root.rightChild, level-1);
-			}
-		}
-	}
+
 	
 	
 	/**
-	 * Compares two trees recurively from root to leaf in breadth first style and 
+	 * Compares two trees recursively from root to leaf in breadth first style and 
 	 * stops at not equal nodes.
 	 * @args root1-root of tree 1, root2-root of tree 2
 	 */
@@ -342,6 +325,25 @@ class Tree {
 			System.out.println();
 			levelInverse++;
 		}		
+	}
+	
+	/**
+	 * Prints Node (Key,value) at given level.
+	 * @args root node, level to print
+	 */
+	public void printGivenLevel(Node root,int level){
+		if(root == null){
+			return;
+		}else{
+			if(level == 1){
+				root.displayNode();
+				System.out.print("\t");
+			}
+			if(level > 1){
+				printGivenLevel(root.leftChild, level-1);
+				printGivenLevel(root.rightChild, level-1);
+			}
+		}
 	}
 
 
@@ -541,6 +543,44 @@ class Tree {
 		}
 		return nodeList;
 	}
+
+	public Node binarySearch(int key){
+		Node toSearchNode = new Node();
+		Node current = root;
+		
+		while(current != null){
+			if(current.key > key){
+				current = current.leftChild;
+			}else if(current.key < key){
+				current = current.rightChild;
+			}else{
+				toSearchNode = current;
+				break;
+			}	
+		}
+		return toSearchNode;
+	}
+
+	
+	public ArrayList<Node> getAllLeaf(){
+		ArrayList<Node> leafNodes = new ArrayList<Node>();
+		Node node = root;
+		Stack<Node> nodeStack = new Stack<Node>();		
+		
+		while(!(nodeStack.isEmpty()) || node != null){
+			if(node != null){
+				nodeStack.push(node);
+				node = node.leftChild;
+			}else{
+				node = nodeStack.pop();
+				if(node.leftChild == null && node.rightChild == null){
+					leafNodes.add(node);
+				}
+				node = node.rightChild;
+			}
+		}		
+		return leafNodes;
+	}
 	
 }
 
@@ -565,7 +605,7 @@ public class TreeApp {
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
 		theTree.insert(65, 65);
-		//theTree.insert(80, 80);
+//		theTree.insert(80, 80);
 
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
@@ -574,6 +614,15 @@ public class TreeApp {
 		theTree.inOrderIterative();
 		
 		System.out.println("LinkList :: "+theTree.toSortedLinkList().toString());
+		
+		int keyToSearch = 72;
+		System.out.print("Node with key "+keyToSearch+" :: ");
+		theTree.binarySearch(72).displayNode();
+		System.out.println();
+		
+		System.out.print("All Leaf Nodes :: ");
+		System.out.println(theTree.getAllLeaf().toString());
+
 		
 		System.out.println();
 		while(true){
