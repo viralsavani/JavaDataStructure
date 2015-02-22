@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -48,7 +49,6 @@ class Tree {
 	private Node root; 		
 	private int size = 0;
 
-
 	public Tree(){
 		root = null;
 	}
@@ -60,14 +60,12 @@ class Tree {
 
 	public Node find(int key){
 		Node current  = root;
-
 		while(current.key != key){
 			if(key < current.key){
 				current = current.leftChild;
 			}else{
 				current = current.rightChild;
 			}
-
 			if(current == null){
 				return null;
 			}
@@ -132,7 +130,6 @@ class Tree {
 	 */
 
 	private void inOrderTraversal(Node localRoot){
-
 		if(localRoot != null){
 			inOrderTraversal(localRoot.leftChild);
 			localRoot.displayNode();
@@ -141,7 +138,6 @@ class Tree {
 	}
 
 	private void preOrderTraversal(Node localRoot){
-
 		if(localRoot != null){
 			localRoot.displayNode();
 			preOrderTraversal(localRoot.leftChild);
@@ -150,7 +146,6 @@ class Tree {
 	}
 
 	private void postOrderTraversal(Node localRoot){
-
 		if(localRoot != null){
 			postOrderTraversal(localRoot.leftChild);
 			postOrderTraversal(localRoot.rightChild);
@@ -158,19 +153,17 @@ class Tree {
 		}
 	}
 
-	public void traverse(String traversalType)	
-	{	
-		switch(traversalType)	
-		{	
-		case "preOrder": System.out.print("\nPreorder traversal: ");	
-		preOrderTraversal(root);	
-		break;	
-		case "inOrder": System.out.print("\nInorder traversal:  ");	
-		inOrderTraversal(root);	
-		break;	
-		case "postOrder": System.out.print("\nPostorder traversal: ");	
-		postOrderTraversal(root);	
-		break;	
+	public void traverse(String traversalType){	
+		switch(traversalType){	
+			case "preOrder": System.out.print("\nPreorder traversal: ");	
+			preOrderTraversal(root);	
+			break;	
+			case "inOrder": System.out.print("\nInorder traversal:  ");	
+			inOrderTraversal(root);	
+			break;	
+			case "postOrder": System.out.print("\nPostorder traversal: ");	
+			postOrderTraversal(root);	
+			break;	
 		}	
 		System.out.println();	
 	}
@@ -312,15 +305,12 @@ class Tree {
 	 * @args root1-root of tree 1, root2-root of tree 2
 	 */
 	public static boolean treeCompare(Node root1, Node root2){
-		
 		if(root1 == root2){
 			return true;
 		}
 		if(root1 == null || root2 == null){
 			return false;
 		}
-		
-		
 		return (	(root1.data == root2.data) && 
 					(root1.key == root2.key) && 
 					(treeCompare(root1.leftChild,root2.leftChild)) && 
@@ -373,28 +363,24 @@ class Tree {
 	/**
 	 * Prints all the paths from root to all leaves recursively.
 	 */
-	public void printAllPath(Node node,List<Node> nodelist)
-	{
-		if(node != null)
-		{
+	public void printAllPath(Node node,List<Node> nodelist) {
+		if(node != null) {
 			nodelist.add(node);
-			if(node.leftChild != null)
-			{
+			if(node.leftChild != null){
 				printAllPath(node.leftChild,nodelist);
 			}
-			if(node.rightChild != null)
-			{
+			if(node.rightChild != null){
 				printAllPath(node.rightChild,nodelist);
 			}
-			else if(node.leftChild == null && node.rightChild == null)
-			{
-
-				for(int i=0;i<nodelist.size();i++)
-				{
+			else if(node.leftChild == null && node.rightChild == null){
+				int localSum = 0;
+				for(int i=0;i<nodelist.size();i++){
 					
 					nodelist.get(i).displayNode();
+					localSum = localSum + nodelist.get(i).data;
 					System.out.print("  ");
 				}
+				System.out.println("Sum of above Path :: "+localSum);
 				System.out.println();
 			}
 			nodelist.remove(node);
@@ -402,8 +388,26 @@ class Tree {
 	}
 	
 	
+	/**
+	 * Checks if tree has any path from root to leaf which has sum equal to given
+	 * in @args sum.
+	 */
+	public boolean hasPathSum(int sum) { 
+		
+		 return(hasPathSum(root, sum)); 
+		}
+		boolean hasPathSum(Node node, int sum) { 
+		  if (node == null) { 
+		    return(sum == 0); 
+		  } 
+		  else { 
+		    int intermediateSum = sum - node.data; 
+		    return(hasPathSum(node.leftChild, intermediateSum) || hasPathSum(node.rightChild, intermediateSum)); 
+		  } 
+		} 
+	
+	
 	public void displayTree(){
-
 		Stack<Node> globalStack = new Stack<Node>();	
 		globalStack.push(root);	
 		int nBlanks = 40;	
@@ -411,7 +415,6 @@ class Tree {
 		System.out.println("......................................................");
 
 		while(isRowEmpty == false){
-
 			Stack<Node> localStack = new Stack<Node>();	
 			isRowEmpty = true;	
 
@@ -420,10 +423,8 @@ class Tree {
 			}
 
 			while(globalStack.isEmpty() == false){
-
 				Node temp = (Node)globalStack.pop();	
 				if(temp != null){
-
 					System.out.print(temp.key);	
 					localStack.push(temp.leftChild);	
 					localStack.push(temp.rightChild);	
@@ -454,7 +455,6 @@ public class TreeApp {
 
 	public static void main(String[] args) throws Exception {
 
-		int control = -999;
 		int value;	
 		String input;
 		Tree theTree = new Tree();	
@@ -473,54 +473,35 @@ public class TreeApp {
 		theTree.insert(72, 72);
 		theTree.insert(65, 65);
 		theTree.insert(80, 80);
-		
-		
 
-		Tree theOtherTree = new Tree();
-		theOtherTree.insert(50, 15);	
-		theOtherTree.insert(25, 12);	
-		theOtherTree.insert(75, 17);	
-		theOtherTree.insert(12, 15);	
-		theOtherTree.insert(37, 12);	
-		theOtherTree.insert(43, 17);	
-		theOtherTree.insert(30, 15);	
-		theOtherTree.insert(29, 2);	
-		theOtherTree.insert(87, 7);	
-		theOtherTree.insert(93, 5);	
-		
-		
-//		Node root1 = theTree.find(50);
-//		Node root2 = theOtherTree.find(50);
-//		System.out.println("Trees are Same? "+Tree.treeCompare(root1, root2));
-		
-		theOtherTree.displayTree();
-		
-//		theTree.printAllPaths();
-//		
-//		theTree.levelTraversal();
-		
-		Node root1 = theOtherTree.find(50);
-		List<Node>nodeList = new ArrayList<Node>(theOtherTree.size());
-		theOtherTree.printAllPath(root1, nodeList);
+		Node root1 = theTree.find(50);	
 		
 		while(true){
-
-			putText("Enter first letter of ");	
-			putText("show, insert, find, delete, traverse, levelTravesal, heightOfTree or Size : ");	
-			int choice = getChar();	
-			switch(choice)	
-			{	
-			case 's':	
+			putText("Enter command for ");	
+			putText("show, insert, find, delete, traverse, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
+			String choice = getString();
+			
+			switch(choice){	
+			case "printAllPath":
+				List<Node> nodeList = new ArrayList<>(theTree.size());
+				theTree.printAllPath(root1,nodeList);
+				break;
+			case "hasSumPath":
+				putText("Enter Sum in digits ::");
+				value = getInt();
+				System.out.println("Sum contains in tree ? "+theTree.hasPathSum(value));
+				break;
+			case "show":	
 				theTree.displayTree();	
 				break;	
-			case 'i':	
+			case "insert":	
 				putText("Enter Key to insert: ");	
 				value = getInt();	
 				putText("Enter Data to insert: ");
 				int data = getInt();
 				theTree.insert(value, data);	
 				break;	
-			case 'f':	
+			case "find":	
 				putText("Enter Key to find: ");	
 				value = getInt();	
 				Node found = theTree.find(value);	
@@ -533,7 +514,7 @@ public class TreeApp {
 				else	
 					putText("Could not find " + value + '\n');	
 				break;	
-			case 'd':	
+			case "delete":	
 				putText("Enter Key to delete: ");	
 				value = getInt();	
 				boolean didDelete = theTree.delete(value);	
@@ -542,18 +523,18 @@ public class TreeApp {
 				else	
 					putText("Could not delete " + value + '\n');	
 				break;	
-			case 't':	
+			case "traverse":	
 				putText("Enter type inOrder, preOrder or postOrder : ");	
 				input = getString();	
 				theTree.traverse(input);	
 				break;
-			case 'l':			
+			case "levelTravesal":			
 				theTree.levelTraversal();	
 				break;
-			case 'h':			
+			case "heightOfTree":			
 				System.out.println("Height of tree :: "+theTree.heightOfTree());	
 				break;
-			case 'S':
+			case "size":
 				System.out.println("Size of tree :: "+theTree.size());
 				break;
 			default:	
