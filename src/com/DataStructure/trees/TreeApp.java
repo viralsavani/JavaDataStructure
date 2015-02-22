@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -34,6 +36,12 @@ class Node{
 		System.out.print(", ");	
 		System.out.print(data);	
 		System.out.print("} ");	
+	}
+
+	@Override
+	public String toString() {
+		String returnString = "{"+key+", "+data+"} ";
+		return returnString;
 	}
 }
 
@@ -233,7 +241,7 @@ class Tree {
 			}
 
 		}
-		else if(current.rightChild == null){					// No right child
+		else if(current.rightChild == null){			// No right child
 			if(current == root){
 				root = current.leftChild;
 			}else if(isLeftChild){
@@ -501,7 +509,7 @@ class Tree {
 	}
 	
 	private void inOrderIterativeHelper(Node node){
-		Stack<Node> nodeStack = new Stack<Node>();
+		Stack<Node> nodeStack = new Stack<Node>();		
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
 				nodeStack.push(node);
@@ -512,6 +520,26 @@ class Tree {
 				node = node.rightChild;
 			}
 		}
+	}
+	
+	public LinkedList<Node> toSortedLinkList(){
+		return toSortedListHelper(root);
+	}
+	private LinkedList<Node> toSortedListHelper(Node node){
+		Stack<Node> nodeStack = new Stack<Node>();		
+		LinkedList<Node> nodeList = new LinkedList<Node>();
+		
+		while(!(nodeStack.isEmpty()) || node != null){
+			if(node != null){
+				nodeStack.push(node);
+				node = node.leftChild;
+			}else{
+				node = nodeStack.pop();
+				nodeList.add(node);
+				node = node.rightChild;
+			}
+		}
+		return nodeList;
 	}
 	
 }
@@ -542,8 +570,12 @@ public class TreeApp {
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
 		
+		System.out.print("InOrder Iterative :: ");
 		theTree.inOrderIterative();
 		
+		System.out.println("LinkList :: "+theTree.toSortedLinkList().toString());
+		
+		System.out.println();
 		while(true){
 			putText("Enter command for ");	
 			putText("show, insert, find, delete, traverse, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
