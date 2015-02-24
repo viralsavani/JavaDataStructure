@@ -286,9 +286,6 @@ class Tree {
 		return successor;
 	}
 
-
-
-	
 	
 	/**
 	 * Compares two trees recursively from root to leaf in breadth first style and 
@@ -430,11 +427,11 @@ class Tree {
 		if(node == null){
 			return true;
 		}else{
-			boolean leftStatus = isBinaryTree(node.leftChild, min, node.data);
+			boolean leftStatus = isBinaryTree(node.leftChild, min, node.key);
 			if(!leftStatus){
 				return false;
 			}
-			boolean rightStatus = isBinaryTree(node.rightChild, node.data, max);
+			boolean rightStatus = isBinaryTree(node.rightChild, node.key+1, max);
 			return rightStatus;
 		}
 	}
@@ -506,11 +503,10 @@ class Tree {
 
 	
 	public void inOrderIterative(){
-		inOrderIterativeHelper(root);
+		inOrderIterative(root);
 		System.out.println();
 	}
-	
-	private void inOrderIterativeHelper(Node node){
+	private void inOrderIterative(Node node){
 		Stack<Node> nodeStack = new Stack<Node>();		
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
@@ -525,9 +521,9 @@ class Tree {
 	}
 	
 	public LinkedList<Node> toSortedLinkList(){
-		return toSortedListHelper(root);
+		return toSortedList(root);
 	}
-	private LinkedList<Node> toSortedListHelper(Node node){
+	private LinkedList<Node> toSortedList(Node node){
 		Stack<Node> nodeStack = new Stack<Node>();		
 		LinkedList<Node> nodeList = new LinkedList<Node>();
 		
@@ -582,6 +578,42 @@ class Tree {
 		return leafNodes;
 	}
 	
+	
+	/**
+	 * For every node, data value must be equal to sum of data values in left and 
+	 * right children. Consider data value as 0 for NULL children
+	 */
+	public boolean isSumProperty(Node node){
+		if(node != null){
+			if(node.leftChild.data + node.rightChild.data == node.data){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	public boolean isSumProperty(){
+		Stack<Node> nodeStack = new Stack<Node>();		
+		Node node = root;
+		while(!(nodeStack.isEmpty()) || node != null){
+			if(node != null){
+				nodeStack.push(node);
+				node = node.leftChild;
+			}else{
+				node = nodeStack.pop();
+				if(node.leftChild != null && node.leftChild != null){
+					if(node.leftChild.data + node.rightChild.data != node.data){
+						return false;
+					}
+				}
+				node = node.rightChild;
+			}
+		}
+		return true;
+	}
 }
 
 public class TreeApp {
@@ -600,7 +632,7 @@ public class TreeApp {
 		theTree.insert(30, 15);	
 		theTree.insert(87, 17);	
 		theTree.insert(93, 15);	
-		theTree.insert(13, 13);
+		theTree.insert(13, 4);
 		theTree.insert(11, 11);
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
@@ -623,6 +655,9 @@ public class TreeApp {
 		System.out.print("All Leaf Nodes :: ");
 		System.out.println(theTree.getAllLeaf().toString());
 
+		System.out.println("Does node 12 adheres to ChildSumProperty ? "+theTree.isSumProperty(theTree.find(12)));
+		
+		System.out.println("Doe Tree adheres to CihldSumProperty ? "+ theTree.isSumProperty());
 		
 		System.out.println();
 		while(true){
