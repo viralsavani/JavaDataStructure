@@ -396,15 +396,25 @@ class Tree {
 	
 	/**
 	 * Diameter of a tree is the maximum distance between any two nodes. Which
-	 * is implicitly the height of left subtree + right subtree.
+	 * the diameter of T’s left subtree the diameter of T’s right subtree
+	 * the longest path between leaves that goes through the root of T 
+	 * (this can be computed from the heights of the subtrees of T)
 	 */
 	public int treeDiameter(){
 		return treeDiameter(root);
 	}
 	
 	private int treeDiameter(Node root){
-		int diameter = (height(root.leftChild)+1) + (height(root.rightChild)+1);
-		return diameter;
+		
+		if(root == null){
+			return 1;
+		}else{
+			int diameterLeftTree = treeDiameter(root.leftChild);
+			int diameterRightTree = treeDiameter(root.rightChild);
+			int diameterWithRoot = (height(root.leftChild)+1) + (height(root.rightChild)+1);
+			return Math.max(Math.max(diameterRightTree, diameterLeftTree), diameterWithRoot);			
+		}
+
 	}
 
 	public int size(){
@@ -486,7 +496,7 @@ class Tree {
 	public void displayTree(){
 		Stack<Node> globalStack = new Stack<Node>();	
 		globalStack.push(root);	
-		int nBlanks = 40;	
+		int nBlanks = 50;	
 		boolean isRowEmpty = false;	
 		System.out.println("......................................................");
 
@@ -686,6 +696,8 @@ public class TreeApp {
 		theTree.insert(10,10);
 		theTree.insert(9,9);
 		theTree.insert(86,99);
+		theTree.insert(73, 73);
+		
 
 
 		Node root1 = theTree.find(50);	
