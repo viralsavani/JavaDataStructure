@@ -342,7 +342,40 @@ class Tree {
 			}
 		}
 	}
-
+	
+	
+	/**
+	 * Performs spiral traversal where node is visited in spiral form i.e each
+	 * level is printed in zig-zag manner.
+	 */
+	public void spiralTraversal(){
+		boolean itr = false;
+		int level = height(root)+1;
+		int levelInverse = 1;
+		while(levelInverse <= level){
+			printGivenLevelSpiral(root, levelInverse,itr);
+			itr = ! itr;
+			levelInverse++;
+		}
+	}
+	private void printGivenLevelSpiral(Node node, int level, boolean itr){
+		if(node == null){
+			return;
+		}else{
+			if(level == 1){
+				node.displayNode();
+			}
+			if(level > 1){
+				if(itr){
+					printGivenLevelSpiral(node.leftChild, level-1, itr);
+					printGivenLevelSpiral(node.rightChild, level-1, itr);
+				}else{
+					printGivenLevelSpiral(node.rightChild, level-1, itr);
+					printGivenLevelSpiral(node.leftChild, level-1, itr);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Return height i.e. number of edges on the longest downward path between the root and a leaf
@@ -658,8 +691,11 @@ public class TreeApp {
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
 		
-		System.out.println("Diameter of tree :: "+theTree.treeDiameter());
+		System.out.print("Spiral Traversal :: ");
+		theTree.spiralTraversal();
+		System.out.println();
 		
+		System.out.println("Diameter of tree :: "+theTree.treeDiameter());
 		
 		System.out.print("InOrder Iterative :: ");
 		theTree.inOrderIterative();
