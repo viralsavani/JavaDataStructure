@@ -578,6 +578,10 @@ class Tree {
 		}
 	}
 	
+	
+	/**
+	 * Breadth first traversal iterative approach using queue
+	 */
 	public void breadthFirstTraversal(){
 		ArrayDeque<Node> nodeQueue = new ArrayDeque<>();
 		nodeQueue.add(root);
@@ -594,6 +598,30 @@ class Tree {
 			}
 		}
 	} 
+	
+	
+	/**
+	 * A tree where no leaf is much farther away from the root than any other leaf. 
+	 * Different balancing schemes allow different definitions of “much farther” 
+	 * and different amounts of work to keep them balanced.
+	 */
+	public boolean isBalanced(){
+		if(root == null){
+			return true;
+		}else{
+			return isBalanced(root);
+		}
+	}
+	
+	private boolean isBalanced(Node node){
+		return ((node == null) ||
+				((isBalanced(node.leftChild) && 
+				(isBalanced(node.rightChild)) && 
+				(Math.abs(
+						height(node.leftChild) - height(node.rightChild)
+						)) <= 1
+				)));
+	}
 	
 	public LinkedList<Node> toSortedLinkList(){
 		return toSortedList(root);
@@ -710,16 +738,19 @@ public class TreeApp {
 		theTree.insert(11, 11);
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
-		theTree.insert(32, 32);
-		theTree.insert(10,10);
-		theTree.insert(9,9);
+//		theTree.insert(32, 32);
+//		theTree.insert(10,10);
+//		theTree.insert(9,9);
 		theTree.insert(86,99);
-		theTree.insert(73, 73);
+//		theTree.insert(69, 69);
 		
 
 
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
+		
+		System.out.println("Is tree balanced ? "+theTree.isBalanced());
+		System.out.println();
 		
 		System.out.print("Breadth First Iterative :: ");
 		theTree.breadthFirstTraversal();
