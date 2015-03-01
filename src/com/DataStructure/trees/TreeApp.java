@@ -3,6 +3,7 @@ package com.DataStructure.trees;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -577,6 +578,23 @@ class Tree {
 		}
 	}
 	
+	public void breadthFirstTraversal(){
+		ArrayDeque<Node> nodeQueue = new ArrayDeque<>();
+		nodeQueue.add(root);
+		while(!nodeQueue.isEmpty()){
+			Node node = nodeQueue.remove();
+			if(node != null){
+				node.displayNode();
+				if(node.leftChild != null){
+					nodeQueue.add(node.leftChild);
+				}
+				if(node.rightChild != null){
+					nodeQueue.add(node.rightChild);
+				}
+			}
+		}
+	} 
+	
 	public LinkedList<Node> toSortedLinkList(){
 		return toSortedList(root);
 	}
@@ -702,6 +720,10 @@ public class TreeApp {
 
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
+		
+		System.out.print("Breadth First Iterative :: ");
+		theTree.breadthFirstTraversal();
+		System.out.println();
 		
 		System.out.print("Spiral Traversal :: ");
 		theTree.spiralTraversal();
