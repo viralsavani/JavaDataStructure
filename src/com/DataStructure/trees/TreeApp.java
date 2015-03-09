@@ -717,6 +717,50 @@ class Tree {
 		}
 		return true;
 	}
+
+	/**
+	 * Using Morris traversal we can traverse tree iteratively without a stack.
+	 * The concept of threaded tree is used where each node stores information
+	 * of it's inorder successor 
+	 */
+	public void morrisTraversal(){
+		Node current = root;
+		Node previous = root;
+		if(current ==  null){
+			return;
+		}
+
+		while(current != null){
+			if(current.leftChild == null){
+				current.displayNode();
+				current = current.rightChild;
+			}else{
+				/**
+				 * Find the inorder predecessor of current
+				 */
+				previous = current.leftChild;
+				while(previous.rightChild != null && previous.rightChild != current){
+					previous = previous.rightChild;
+				}
+				
+				/**
+				 * Make current as right child of it's inorder predecessor
+				 */
+				if(previous.rightChild == null){
+					previous.rightChild = current;
+					current = current.leftChild;					
+				}else{
+					
+					/**
+					 * Undo the changes to restore the original structure of tree
+					 */
+					previous.rightChild = null;
+					current.displayNode();
+					current = current.rightChild;
+				}
+			}
+		}
+	}	
 }
 
 public class TreeApp {
@@ -748,6 +792,10 @@ public class TreeApp {
 
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
+		
+		System.out.print("Morris Traversal :: ");
+		theTree.morrisTraversal();
+		System.out.println();
 		
 		System.out.println("Is tree balanced ? "+theTree.isBalanced());
 		System.out.println();

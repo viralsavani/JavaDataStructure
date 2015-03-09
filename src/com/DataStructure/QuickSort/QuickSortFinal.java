@@ -1,7 +1,5 @@
 package com.DataStructure.QuickSort;
 
-import java.util.ArrayList;
-
 /**
  * Here worst case only if all the elements in array
  * are inversely sorted or the pivot is chosen in such
