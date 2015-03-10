@@ -346,6 +346,43 @@ class Tree {
 	
 	
 	/**
+	 * Width of level represents the number of nodes in that level.
+	 * The method performs breadth first traversal and instead of printing
+	 * the node in each level it counts and when level changes the count is
+	 * printed.
+	 */
+	public void widthOfEachLevel(){
+		int level = height(root)+1;
+		int levelInverse = 1;
+		
+		while(levelInverse <= level){
+			System.out.print("Width Of LEVEL :: "+levelInverse+"  ");
+			System.out.print(widthOfGivenLevel(root, levelInverse));
+			System.out.println();
+			levelInverse++;
+		}	
+	}
+	
+	/**
+	 * Helper function widthOfEachLevel
+	 */
+	private int widthOfGivenLevel(Node node, int level){
+		int width = 0;
+		if(node == null){
+			width = 0;
+		}else{
+			if(level == 1){
+				width = 1;
+			}
+			if(level > 1){
+				width = widthOfGivenLevel(node.leftChild, level-1) + widthOfGivenLevel(node.rightChild, level-1);
+			}
+		}
+		return width;
+	}
+	
+	
+	/**
 	 * Performs spiral traversal where node is visited in spiral form i.e each
 	 * level is printed in zig-zag manner.
 	 */
@@ -544,7 +581,7 @@ class Tree {
 	 * The solution presented is iterative which takes O(n) where n number of nodes visited.
 	 */
 	public Node lowestCommonAncestor(Node root, int key1, int key2){
-		this.root = root;
+//		this.root = root;
 		Node current = root;
 		
 		while(current != null){
@@ -782,14 +819,9 @@ public class TreeApp {
 		theTree.insert(11, 11);
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
-//		theTree.insert(32, 32);
-//		theTree.insert(10,10);
-//		theTree.insert(9,9);
 		theTree.insert(86,99);
-//		theTree.insert(69, 69);
+
 		
-
-
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
 		
@@ -825,15 +857,21 @@ public class TreeApp {
 
 		System.out.println("Does node 12 adheres to ChildSumProperty ? "+theTree.isSumProperty(theTree.find(12)));
 		
-//		System.out.println("Does Tree adheres to CihldSumProperty ? "+ theTree.isSumProperty());
+		System.out.println("Does Tree adheres to CihldSumProperty ? "+ theTree.isSumProperty());
+		
+		theTree.lowestCommonAncestor(root1, 13, 30).displayNode();
 		
 		System.out.println();
 		while(true){
 			putText("Enter command for ");	
-			putText("show, insert, find, delete, traverse, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
+			putText("show, insert, find, delete, traverse, widthOfEachLevel, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
 			String choice = getString();
 			
 			switch(choice){	
+			case "widthOfEachLevel":
+				theTree.widthOfEachLevel();
+				System.out.println();
+				break;
 			case "isBinaryTree":
 				System.out.println("Is tree binary ? "+theTree.isBinaryTree());
 				break;
