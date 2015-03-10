@@ -580,8 +580,7 @@ class Tree {
 	 * node in T that has both n1 and n2 as descendants.
 	 * The solution presented is iterative which takes O(n) where n number of nodes visited.
 	 */
-	public Node lowestCommonAncestor(Node root, int key1, int key2){
-//		this.root = root;
+	public Node lowestCommonAncestor( int key1, int key2){
 		Node current = root;
 		
 		while(current != null){
@@ -859,7 +858,9 @@ public class TreeApp {
 		
 		System.out.println("Does Tree adheres to CihldSumProperty ? "+ theTree.isSumProperty());
 		
-		theTree.lowestCommonAncestor(root1, 13, 30).displayNode();
+		System.out.print("Lowest Common Ancestor of 13 and 30 :: ");
+		theTree.lowestCommonAncestor(13, 30).displayNode();
+		System.out.println();
 		
 		System.out.println();
 		while(true){
