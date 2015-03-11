@@ -59,7 +59,6 @@ class Tree {
 		root = null;
 	}
 
-
 	/**
 	 * Perform simple binary search to locate a key
 	 */
@@ -512,19 +511,27 @@ class Tree {
 	
 	/**
 	 * Efficient BST helper -- Given a node, and min and max values, recurs down the tree 
-	 * to verify that it is a BST, and that all its nodes are within the min..max range. 
+	 * to verify that it is a BST, and that all its nodes are within the min...max range.
 	 * Works in O(n) time -- visits each node only once.
 	 */
 	private boolean isBinaryTree(Node node, int min, int max){
 		if(node == null){
-			return true;
+            return true;
 		}else{
-			boolean leftStatus = isBinaryTree(node.leftChild, min, node.key);
-			if(!leftStatus){
-				return false;
-			}
-            return isBinaryTree(node.rightChild, node.key+1, max);
+            node.displayNode();
+            if(node.leftChild != null && node.leftChild.key < node.key){
+                isBinaryTree(node.leftChild, min, node.key);
+            }else{
+                return false;
+            }
+
+            if(node.rightChild != null && node.rightChild.key > node.key){
+                isBinaryTree(node.rightChild, node.key+1, max);
+            }else{
+                return false;
+            }
 		}
+        return true;
 	}
 		
 	public void displayTree(){
@@ -781,6 +788,52 @@ class Tree {
 			}
 		}
 	}	
+
+
+    /**
+     * Modifies the tree such that each of the nodes in left sub tree is replace by node
+     * in right sub tree. The positions of nodes are exactly mirror imaged
+     */
+    public Tree mirrorTree(){
+        Tree mirrorTree = new Tree();
+        mirrorTree.root = root;
+        mirrorTree.mirrorTree(mirrorTree.root);
+        return mirrorTree;
+    }
+
+    /**
+     * Helper function for mirrorTree()
+     */
+    private void mirrorTree(Node node){
+        if(node !=  null){
+            Node temp;
+            mirrorTree(node.leftChild);
+            mirrorTree(node.rightChild);
+
+            temp = node.leftChild;
+            node.leftChild = node.rightChild;
+            node.rightChild = temp;
+        }
+    }
+
+
+    /**
+     * Creates the new tree with root equal to leftChild of "this" tree
+     */
+    public Tree leftSubTree(){
+        Tree leftTree = new Tree();
+        leftTree.root = root.leftChild;
+        return leftTree;
+    }
+
+    /**
+     * Creates the new tree with root equal to rightChild of "this" tree
+     */
+    public Tree rightSubTree(){
+        Tree rightTree = new Tree();
+        rightTree.root = root.rightChild;
+        return rightTree;
+    }
 }
 
 public class TreeApp {
@@ -792,12 +845,12 @@ public class TreeApp {
 		Tree theTree = new Tree();	
 		theTree.insert(50, 15);	
 		theTree.insert(25, 12);	
-		theTree.insert(75, 17);	
+		theTree.insert(75, 17);
 		theTree.insert(12, 15);		
 		theTree.insert(43, 17);	
 		theTree.insert(30, 15);	
-		theTree.insert(87, 17);	
-		theTree.insert(93, 15);	
+		theTree.insert(87, 17);
+		theTree.insert(93, 15);
 		theTree.insert(13, 4);
 		theTree.insert(11, 11);
 		theTree.insert(70, 70);
@@ -807,8 +860,16 @@ public class TreeApp {
 		
 		Node root1 = theTree.find(50);	
 		theTree.displayTree();
-		
-		System.out.print("Morris Traversal :: ");
+
+        System.out.println("Left Sub Tree ::");
+        theTree.leftSubTree().displayTree();
+        System.out.println();
+
+        System.out.println("Right Sub Tree ::");
+        theTree.rightSubTree().displayTree();
+        System.out.println();
+
+        System.out.print("Morris Traversal :: ");
 		theTree.morrisTraversal();
 		System.out.println();
 		
@@ -840,12 +901,19 @@ public class TreeApp {
 
 		System.out.println("Does node 12 adheres to ChildSumProperty ? "+theTree.isSumProperty(theTree.find(12)));
 		
-		System.out.println("Does Tree adheres to CihldSumProperty ? "+ theTree.isSumProperty());
+		System.out.println("Does Tree adheres to ChildSumProperty ? "+ theTree.isSumProperty());
 		
 		System.out.print("Lowest Common Ancestor of 13 and 30 :: ");
 		theTree.lowestCommonAncestor(13, 30).displayNode();
 		System.out.println();
-		
+
+        System.out.println("Mirror Image of Tree :: ");
+        theTree.mirrorTree();
+        theTree.displayTree();
+        theTree.mirrorTree();
+        System.out.println();
+
+
 		System.out.println();
 		while(true){
 			putText("Enter command for ");	
