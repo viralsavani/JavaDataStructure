@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -41,8 +39,7 @@ class Node{
 
 	@Override
 	public String toString() {
-		String returnString = "{"+key+", "+data+"} ";
-		return returnString;
+        return "{"+key+", "+data+"} ";
 	}
 }
 
@@ -434,7 +431,7 @@ class Tree {
 	
 	/**
 	 * Diameter of a tree is the maximum distance between any two nodes. Which
-	 * the diameter of T’s left subtree the diameter of T’s right subtree
+	 * the diameter of Tï¿½s left subtree the diameter of Tï¿½s right subtree
 	 * the longest path between leaves that goes through the root of T 
 	 * (this can be computed from the heights of the subtrees of T)
 	 */
@@ -474,12 +471,12 @@ class Tree {
 			}
 			else if(node.leftChild == null && node.rightChild == null){
 				int localSum = 0;
-				for(int i=0;i<nodelist.size();i++){
-					
-					nodelist.get(i).displayNode();
-					localSum = localSum + nodelist.get(i).data;
-					System.out.print("  ");
-				}
+                for (Node aNodelist : nodelist) {
+
+                    aNodelist.displayNode();
+                    localSum = localSum + aNodelist.data;
+                    System.out.print("  ");
+                }
 				System.out.println("Sum of above Path :: "+localSum);
 				System.out.println();
 			}
@@ -526,28 +523,27 @@ class Tree {
 			if(!leftStatus){
 				return false;
 			}
-			boolean rightStatus = isBinaryTree(node.rightChild, node.key+1, max);
-			return rightStatus;
+            return isBinaryTree(node.rightChild, node.key+1, max);
 		}
 	}
 		
 	public void displayTree(){
-		Stack<Node> globalStack = new Stack<Node>();	
+		Stack<Node> globalStack = new Stack<>();
 		globalStack.push(root);	
 		int nBlanks = 50;	
 		boolean isRowEmpty = false;	
 		System.out.println("......................................................");
 
-		while(isRowEmpty == false){
-			Stack<Node> localStack = new Stack<Node>();	
+		while(!isRowEmpty){
+			Stack<Node> localStack = new Stack<>();
 			isRowEmpty = true;	
 
 			for(int j=0; j<nBlanks; j++){	
 				System.out.print(' ');	
 			}
 
-			while(globalStack.isEmpty() == false){
-				Node temp = (Node)globalStack.pop();	
+			while(!globalStack.isEmpty()){
+				Node temp = globalStack.pop();
 				if(temp != null){
 					System.out.print(temp.key);	
 					localStack.push(temp.leftChild);	
@@ -567,7 +563,7 @@ class Tree {
 			}
 			System.out.println();	
 			nBlanks /= 2;	
-			while(localStack.isEmpty() == false){
+			while(!localStack.isEmpty()){
 				globalStack.push(localStack.pop());
 			}
 		}
@@ -601,7 +597,7 @@ class Tree {
 		System.out.println();
 	}
 	private void inOrderIterative(Node node){
-		Stack<Node> nodeStack = new Stack<Node>();		
+		Stack<Node> nodeStack = new Stack<>();
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
 				nodeStack.push(node);
@@ -638,16 +634,12 @@ class Tree {
 	
 	/**
 	 * A tree where no leaf is much farther away from the root than any other leaf. 
-	 * Different balancing schemes allow different definitions of “much farther” 
+	 * Different balancing schemes allow different definitions of ï¿½much fartherï¿½ 
 	 * and different amounts of work to keep them balanced.
 	 */
-	public boolean isBalanced(){
-		if(root == null){
-			return true;
-		}else{
-			return isBalanced(root);
-		}
-	}
+	public boolean isBalanced() {
+        return root == null || isBalanced(root);
+    }
 	
 	private boolean isBalanced(Node node){
 		return ((node == null) ||
@@ -663,8 +655,8 @@ class Tree {
 		return toSortedList(root);
 	}
 	private LinkedList<Node> toSortedList(Node node){
-		Stack<Node> nodeStack = new Stack<Node>();		
-		LinkedList<Node> nodeList = new LinkedList<Node>();
+		Stack<Node> nodeStack = new Stack<>();
+		LinkedList<Node> nodeList = new LinkedList<>();
 		
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
@@ -698,9 +690,9 @@ class Tree {
 
 	
 	public ArrayList<Node> getAllLeaf(){
-		ArrayList<Node> leafNodes = new ArrayList<Node>();
+		ArrayList<Node> leafNodes = new ArrayList<>();
 		Node node = root;
-		Stack<Node> nodeStack = new Stack<Node>();		
+		Stack<Node> nodeStack = new Stack<>();
 		
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
@@ -722,20 +714,12 @@ class Tree {
 	 * For every node, data value must be equal to sum of data values in left and 
 	 * right children. Consider data value as 0 for NULL children
 	 */
-	public boolean isSumProperty(Node node){
-		if(node != null){
-			if(node.leftChild.data + node.rightChild.data == node.data){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}
+	public boolean isSumProperty(Node node) {
+        return node != null && node.leftChild.data + node.rightChild.data == node.data;
+    }
 	
 	public boolean isSumProperty(){
-		Stack<Node> nodeStack = new Stack<Node>();		
+		Stack<Node> nodeStack = new Stack<>();
 		Node node = root;
 		while(!(nodeStack.isEmpty()) || node != null){
 			if(node != null){
@@ -743,7 +727,7 @@ class Tree {
 				node = node.leftChild;
 			}else{
 				node = nodeStack.pop();
-				if(node.leftChild != null && node.leftChild != null){
+				if(node.leftChild != null && node.rightChild != null){
 					if(node.leftChild.data + node.rightChild.data != node.data){
 						return false;
 					}
@@ -761,7 +745,7 @@ class Tree {
 	 */
 	public void morrisTraversal(){
 		Node current = root;
-		Node previous = root;
+		Node previous ;
 		if(current ==  null){
 			return;
 		}
@@ -865,74 +849,78 @@ public class TreeApp {
 		System.out.println();
 		while(true){
 			putText("Enter command for ");	
-			putText("show, insert, find, delete, traverse, widthOfEachLevel, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree or size : ");	
+			putText("show, insert, find, delete, traverse, widthOfEachLevel, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree, exit or size : ");
 			String choice = getString();
 			
-			switch(choice){	
-			case "widthOfEachLevel":
-				theTree.widthOfEachLevel();
-				System.out.println();
-				break;
-			case "isBinaryTree":
-				System.out.println("Is tree binary ? "+theTree.isBinaryTree());
-				break;
-			case "printAllPath":
-				List<Node> nodeList = new ArrayList<>(theTree.size());
-				theTree.printAllPath(root1,nodeList);
-				break;
-			case "hasSumPath":
-				putText("Enter Sum in digits ::");
-				value = getInt();
-				System.out.println("Sum contains in tree ? "+theTree.hasPathSum(value));
-				break;
-			case "show":	
-				theTree.displayTree();	
-				break;	
-			case "insert":	
-				putText("Enter Key to insert: ");	
-				value = getInt();	
-				putText("Enter Data to insert: ");
-				int data = getInt();
-				theTree.insert(value, data);	
-				break;	
-			case "find":	
-				putText("Enter Key to find: ");	
-				value = getInt();	
-				Node found = theTree.find(value);	
-				if(found != null)	
-				{	
-					putText("Found: ");	
-					found.displayNode();	
-					putText("\n");	
-				}	
-				else	
-					putText("Could not find " + value + '\n');	
-				break;	
-			case "delete":	
-				putText("Enter Key to delete: ");	
-				value = getInt();	
-				boolean didDelete = theTree.delete(value);	
-				if(didDelete)	
-					putText("Deleted " + value + '\n');	
-				else	
-					putText("Could not delete " + value + '\n');	
-				break;	
-			case "traverse":	
-				putText("Enter type inOrder, preOrder or postOrder : ");	
-				input = getString();	
-				theTree.traverse(input);	
-				break;
-			case "levelTravesal":			
-				theTree.levelTraversal();	
-				break;
-			case "heightOfTree":			
-				System.out.println("Height of tree :: "+theTree.heightOfTree());	
-				break;
-			case "size":
-				System.out.println("Size of tree :: "+theTree.size());
-				break;
-			default:	
-				putText("Invalid entry\n");	
+			switch(choice){
+                case "exit":
+                    System.exit(0);
+                    break;
+
+                case "widthOfEachLevel":
+                    theTree.widthOfEachLevel();
+                    System.out.println();
+                    break;
+                case "isBinaryTree":
+                    System.out.println("Is tree binary ? "+theTree.isBinaryTree());
+                    break;
+                case "printAllPath":
+                    List<Node> nodeList = new ArrayList<>(theTree.size());
+                    theTree.printAllPath(root1,nodeList);
+                    break;
+                case "hasSumPath":
+                    putText("Enter Sum in digits ::");
+                    value = getInt();
+                    System.out.println("Sum contains in tree ? "+theTree.hasPathSum(value));
+                    break;
+                case "show":
+                    theTree.displayTree();
+                    break;
+                case "insert":
+                    putText("Enter Key to insert: ");
+                    value = getInt();
+                    putText("Enter Data to insert: ");
+                    int data = getInt();
+                    theTree.insert(value, data);
+                    break;
+                case "find":
+                    putText("Enter Key to find: ");
+                    value = getInt();
+                    Node found = theTree.find(value);
+                    if(found != null)
+                    {
+                        putText("Found: ");
+                        found.displayNode();
+                        putText("\n");
+                    }
+                    else
+                        putText("Could not find " + value + '\n');
+                    break;
+                case "delete":
+                    putText("Enter Key to delete: ");
+                    value = getInt();
+                    boolean didDelete = theTree.delete(value);
+                    if(didDelete)
+                        putText("Deleted " + value + '\n');
+                    else
+                        putText("Could not delete " + value + '\n');
+                    break;
+                case "traverse":
+                    putText("Enter type inOrder, preOrder or postOrder : ");
+                    input = getString();
+                    theTree.traverse(input);
+                    break;
+                case "levelTravesal":
+                    theTree.levelTraversal();
+                    break;
+                case "heightOfTree":
+                    System.out.println("Height of tree :: "+theTree.heightOfTree());
+                    break;
+                case "size":
+                    System.out.println("Size of tree :: "+theTree.size());
+                    break;
+                default:
+                    putText("Invalid entry\n");
 			}	
 		}
 	}
