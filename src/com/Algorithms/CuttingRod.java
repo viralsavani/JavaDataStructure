@@ -28,6 +28,13 @@ public class CuttingRod {
 
     }
 
+    /**
+     * Problem is to find the best amount/revenue we can earn from cutting a rod of length
+     * "n". Each piece has its own price given in price[].
+     *
+     * Recursive Solution performs all possible combination in top-down approach which takes
+     * 2^n which is exponential
+     */
     public static int cuttingRodRecursive(int[] price, int piece) {
         int maxFound = Integer.MIN_VALUE;
         if(piece == 0){
@@ -40,6 +47,13 @@ public class CuttingRod {
         return maxFound;
     }
 
+
+    /**
+     * This is a dynamic programming solution where bottom up approach is followed and the
+     * recursive call is replace by array lookup.
+     * The cost of removing recursive calls is an array of size of rod length
+     * It takes Theta(n^2) which is quadratic way less than exponential.
+     */
     public static int cuttingRodBottomUp(int[] price, int piece){
         int[] revenueArray = new int[piece+1];
         revenueArray[0] = 0;
