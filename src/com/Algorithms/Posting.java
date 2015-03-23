@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * Posting Lists are mainly used in Boolean Ranked Model in Information Retrieval to find the intersection between
  * two boolean queries.
  */
-public class PostingList {
+public class Posting {
 
     private File inputFile;
     private FileReader fileReader;
@@ -30,7 +30,7 @@ public class PostingList {
     /**
      * Constructor with only file address
      */
-    public PostingList(String fileAddress) throws FileNotFoundException {
+    public Posting(String fileAddress) throws FileNotFoundException {
         inputFile = new File(fileAddress);
         fileReader = new FileReader(inputFile);
         bufferedReader = new BufferedReader(fileReader);
@@ -47,7 +47,7 @@ public class PostingList {
      * all the existing keys) it minimal. In best case this time
      * can be reduced to zero.
      */
-    public PostingList(String fileAddress, int wordCount) throws FileNotFoundException {
+    public Posting(String fileAddress, int wordCount) throws FileNotFoundException {
         inputFile = new File(fileAddress);
         fileReader = new FileReader(inputFile);
         bufferedReader = new BufferedReader(fileReader);
@@ -83,12 +83,19 @@ public class PostingList {
         return postingHahMap;
     }
 
+    public LinkedList<Integer> getPostingList(String word){
+        LinkedList<Integer> positionList = postingHahMap.get(word);
+        return positionList;
+    }
+
 
 
     public static void main(String[] args) throws IOException {
 
-        PostingList postingList = new PostingList("C:\\Users\\VIRAL\\Downloads\\big.txt",40000);
-        HashMap<String,LinkedList<Integer>>  postingHashMap = postingList.createPostingListMap();
+        Posting posting = new Posting("C:\\Users\\VIRAL\\Downloads\\big.txt",40000);
+        HashMap<String,LinkedList<Integer>>  postingHashMap = posting.createPostingListMap();
         System.out.println(postingHashMap.size());
+
+        LinkedList<Integer> the_postingList = posting.getPostingList("the");
     }
 }
