@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,7 +108,7 @@ public class SpellChecker {
 
 
         /**
-         * Suggestion based on replacement
+         * Suggestion based on replacement of any one character
          * Input    = Viral
          * Output   = ()     (a->z) (iral)
          *          = (V)    (a->z) (ral)
@@ -125,7 +126,7 @@ public class SpellChecker {
 
 
         /**
-         * Suggestion based on insertion
+         * Suggestion based on insertion of one character at any position
          * Input    = Viral
          * Output   = ()      (a->z)  (Viral)
          *          = (V)     (a->z)  (iral)
@@ -144,6 +145,79 @@ public class SpellChecker {
         return suggestionList;
     }
 
+
+    /**
+     * The function correction chooses as the set of possible words the set with
+     * the shortest edit distance to the original word, as long as the set has
+     * some known words. Once it identifies the possible set to consider, it
+     * chooses the element with the highest P(c) i.e probability of corrected
+     * word "c" value.
+     */
+    public final String correction(String word){
+        String returnString = "";
+
+        /**
+         * If the word is present in dictionary return immediately
+         */
+        if(dictionaryWords.containsKey(word)){
+            returnString = word;
+        }else{
+            ArrayList<String> suggestionList = suggestions(word);
+            HashMap<Integer, String> possibleWords = new HashMap<>();
+
+            /**
+             * For each suggestion check if it exists in dictionary.
+             * If yes then store the string with its occurrence as key
+             */
+            for (String string : suggestionList){
+                if (dictionaryWords.containsKey(string)){
+                    possibleWords.put(dictionaryWords.get(string), string);
+                }
+
+                /**
+                 * Return the maximum occurred word if there exists any from
+                 * suggestionsList
+                 */
+                if(possibleWords.size() > 0){
+                    returnString = possibleWords.get(Collections.max(possibleWords.keySet()));
+                }else{
+
+                    /**
+                     * If any of the suggestion is not present in dictionary check for suggestions for each
+                     * word in suggestionList.
+                     */
+                    for (String s : suggestionList){
+                        for (String s1 : suggestions(s)){
+                            if(dictionaryWords.containsKey(s1)){
+                                possibleWords.put(dictionaryWords.get(s1), s1);
+                            }
+                        }
+                    }
+
+
+                    /**
+                     * Return the maximum occurred word if there exists any from
+                     * suggestionsList of "s" i.e. each word from previous suggestionList.
+                     */
+                    if(possibleWords.size() > 0){
+                        returnString = possibleWords.get(Collections.max(possibleWords.keySet()));
+                    }else{
+
+                        /**
+                         * Return the word itself if nothing found
+                         */
+                        returnString = word;
+                    }
+                }
+            }
+        }
+        return returnString;
+    }
+
+
+
     public static void main(String[] args) throws IOException {
+        SpellChecker spellChecker = new SpellChecker("C:\\Users\\VIRAL\\Downloads\\big.txt");
+        System.out.println(spellChecker.correction("plesent"));
     }
 }
