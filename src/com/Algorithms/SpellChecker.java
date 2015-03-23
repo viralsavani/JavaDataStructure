@@ -6,6 +6,7 @@ package com.Algorithms;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,7 +66,84 @@ public class SpellChecker {
         bufferedReader.close();
     }
 
-    public static void main(String[] args) throws IOException {
 
+    /**
+     * Enumerates all possible suggestion based on edit distance
+     * This can be a big set. For a word of length n, there will be n deletions,
+     * n-1 transpositions, 26n alterations, and 26(n+1) insertions, for a total of 54n+25
+     */
+    public final ArrayList<String> suggestions(String word){
+        ArrayList<String> suggestionList = new ArrayList<>();
+        String addedString = "";
+
+
+        /**
+         * Suggestion based on deletion of any one character
+         * Input    = Viral
+         * Output   = iral
+         *          = Vral
+         *          = Vial
+         *          = Vira
+         */
+        for(int i = 0; i < word.length(); ++i){
+            addedString = word.substring(0, i) + word.substring(i+1);
+            suggestionList.add(addedString);
+        }
+
+
+        /**
+         * Suggestion based on transposition
+         * Input    = Viral
+         * Output   = ()	(i)	(V)	(ral)
+         *           (V)	(r)	(i)	(al)
+         *           (Vi)	(a)	(r)	(l)
+         *           (Vir)	(l)	(a)	()
+         */
+        for (int i = 0; i < word.length() - 1; ++i){
+            addedString = word.substring(0,i) + word.substring(i+1,i+2) + word.substring(i, i+1) + word.substring(i+2);
+//            System.out.println("("+ word.substring(0,i)+")\t("+word.substring(i+1,i+2)+")\t("+word.substring(i, i+1)+")\t("+word.substring(i+2)+")");
+            suggestionList.add(addedString);
+        }
+
+
+        /**
+         * Suggestion based on replacement
+         * Input    = Viral
+         * Output   = ()     (a->z) (iral)
+         *          = (V)    (a->z) (ral)
+         *          = (Vi)   (a->z) (al)
+         *          = (Vir)  (a->z) (l)
+         *          = (Vira) (a->z) ()
+         */
+        for(int i = 0; i < word.length(); ++i){
+            for (char c = 'a'; c <= 'z'; ++c){
+                addedString = word.substring(0, i) + String.valueOf(c) + word.substring(i+1);
+//                System.out.println("("+ word.substring(0,i)+")\t("+String.valueOf(c)+")\t("+word.substring(i+1)+")");
+                suggestionList.add(addedString);
+            }
+        }
+
+
+        /**
+         * Suggestion based on insertion
+         * Input    = Viral
+         * Output   = ()      (a->z)  (Viral)
+         *          = (V)     (a->z)  (iral)
+         *          = (Vi)    (a->z)  (ral)
+         *          = (Vir)   (a->z)  (al)
+         *          = (Vira)  (a->z)  (l)
+         *          = (Viral) (a-> z) ()
+         */
+        for(int i = 0; i <= word.length(); ++i) {
+            for (char c = 'a'; c <= 'z'; ++c) {
+                addedString = word.substring(0,i)+String.valueOf(c)+word.substring(i);
+//                System.out.println("("+ word.substring(0,i)+")\t("+String.valueOf(c)+")\t("+word.substring(i)+")");
+                suggestionList.add(addedString);
+            }
+        }
+        return suggestionList;
+    }
+
+    public static void main(String[] args) throws IOException {
     }
 }
