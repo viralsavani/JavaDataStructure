@@ -834,6 +834,28 @@ class Tree {
         rightTree.root = root.rightChild;
         return rightTree;
     }
+
+    /**
+     * Merge tree as name signifies is used to combine two binary trees and returns
+     * a merged binary tree.
+     *
+     * Approach of converting tree to linked list and then inserting might seem
+     * little bit tedious. But method is predefined so I used this approach.
+     *
+     * Efficient way is to traverse tree in any fashion and perform insertion
+     * during the traversal itself which way reduce the space used by linked list.
+     *
+     * @param tree  a Tree which is to be merged with tree in context
+     * @return Tree a Tree which is result of the merging.
+     */
+    public Tree mergeTree(Tree tree){
+        Tree resultantTree = tree;
+        LinkedList<Node> nodeList =  toSortedLinkList();
+        for (Node aNodeList : nodeList) {
+            resultantTree.insert(aNodeList.key, aNodeList.data);
+        }
+        return resultantTree;
+    }
 }
 
 public class TreeApp {
@@ -847,7 +869,7 @@ public class TreeApp {
 		theTree.insert(25, 12);	
 		theTree.insert(75, 17);
 		theTree.insert(12, 15);		
-		theTree.insert(43, 17);	
+		theTree.insert(43, 17);
 		theTree.insert(30, 15);	
 		theTree.insert(87, 17);
 		theTree.insert(93, 15);
@@ -872,37 +894,37 @@ public class TreeApp {
         System.out.print("Morris Traversal :: ");
 		theTree.morrisTraversal();
 		System.out.println();
-		
+
 		System.out.println("Is tree balanced ? "+theTree.isBalanced());
 		System.out.println();
-		
+
 		System.out.print("Breadth First Iterative :: ");
 		theTree.breadthFirstTraversal();
 		System.out.println();
-		
+
 		System.out.print("Spiral Traversal :: ");
 		theTree.spiralTraversal();
 		System.out.println();
-		
+
 		System.out.println("Diameter of tree :: "+theTree.treeDiameter());
-		
+
 		System.out.print("InOrder Iterative :: ");
 		theTree.inOrderIterative();
-		
+
 		System.out.println("LinkList :: "+theTree.toSortedLinkList().toString());
-		
+
 		int keyToSearch = 72;
 		System.out.print("Node with key "+keyToSearch+" :: ");
 		theTree.binarySearch(72).displayNode();
 		System.out.println();
-		
+
 		System.out.print("All Leaf Nodes :: ");
 		System.out.println(theTree.getAllLeaf().toString());
 
 		System.out.println("Does node 12 adheres to ChildSumProperty ? "+theTree.isSumProperty(theTree.find(12)));
-		
+
 		System.out.println("Does Tree adheres to ChildSumProperty ? "+ theTree.isSumProperty());
-		
+
 		System.out.print("Lowest Common Ancestor of 13 and 30 :: ");
 		theTree.lowestCommonAncestor(13, 30).displayNode();
 		System.out.println();
