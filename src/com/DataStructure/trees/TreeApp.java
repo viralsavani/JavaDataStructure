@@ -3,11 +3,7 @@ package com.DataStructure.trees;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Time needed to carry out the common tree operations is proportional to the
@@ -616,6 +612,32 @@ class Tree {
 			}
 		}
 	}
+
+
+    public void preOrderIterative(){
+        preOrderIterative(root);
+        System.out.println();
+    }
+
+    private void preOrderIterative(Node node){
+        Stack<Node> nodeStack = new Stack<>();
+        Node poppedNode = new Node();
+        nodeStack.push(node);
+        while (!nodeStack.isEmpty() || node != null){
+
+            if(nodeStack.size() <= 0){
+                break;
+            }
+            poppedNode = nodeStack.pop();
+            poppedNode.displayNode();
+            if(poppedNode.rightChild != null){
+                nodeStack.push(poppedNode.rightChild);
+            }
+            if(poppedNode.leftChild != null){
+                nodeStack.push(poppedNode.leftChild);
+            }
+        }
+    }
 	
 	
 	/**
@@ -856,6 +878,53 @@ class Tree {
         }
         return resultantTree;
     }
+
+
+    /**
+     * Print nodes at given level of tree.
+     * Uses iterative approach.
+     */
+
+    public void printGivenLevelIterative(int level){
+        printGivenLevelIterative(root, level);
+        System.out.println();
+    }
+
+    private void printGivenLevelIterative(Node node, int level){
+        Queue<Node> nodeQueue = new LinkedList<>();
+        Node removedNode ;
+        int currentLevel = 0;
+
+        nodeQueue.add(node);
+        nodeQueue.add(null);
+
+        while (!nodeQueue.isEmpty()){
+
+            if(currentLevel == level){
+                while (nodeQueue.peek() != null){
+                    removedNode = nodeQueue.remove();
+                    removedNode.displayNode();
+                }
+            }
+
+            removedNode = nodeQueue.remove();
+
+            if(removedNode == null){
+                if(!nodeQueue.isEmpty()){
+                    nodeQueue.add(null);
+                }
+                currentLevel++;
+            }else {
+                if(removedNode.leftChild != null){
+                    nodeQueue.add(removedNode.leftChild);
+                }
+                if (removedNode.rightChild != null){
+                    nodeQueue.add(removedNode.rightChild);
+                }
+            }
+        }
+    }
+
 }
 
 public class TreeApp {
@@ -910,6 +979,12 @@ public class TreeApp {
 
 		System.out.print("InOrder Iterative :: ");
 		theTree.inOrderIterative();
+
+        System.out.print("PreOrder Iterative :: ");
+        theTree.preOrderIterative();
+
+        System.out.print("Print Given Level Iterative :: ");
+        theTree.printGivenLevelIterative(2);
 
 		System.out.println("LinkList :: "+theTree.toSortedLinkList().toString());
 
