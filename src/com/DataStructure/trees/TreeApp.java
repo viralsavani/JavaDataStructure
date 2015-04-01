@@ -621,7 +621,7 @@ class Tree {
 
     private void preOrderIterative(Node node){
         Stack<Node> nodeStack = new Stack<>();
-        Node poppedNode = new Node();
+        Node poppedNode;
         nodeStack.push(node);
         while (!nodeStack.isEmpty() || node != null){
 
@@ -925,6 +925,32 @@ class Tree {
         }
     }
 
+    public Node kthSmallestNode(int k){
+        Node current = root;
+        Stack<Node> nodeStack = new Stack<>();
+
+        while (current != null){
+            nodeStack.push(current);
+            current = current.leftChild;
+        }
+
+        while ((current = nodeStack.pop()) != null){
+            if(--k == 1){
+                break;
+            }
+
+            if(current.rightChild != null){
+                current = current.rightChild;
+
+                while (current != null){
+                    nodeStack.push(current);
+                    current = current.leftChild;
+                }
+            }
+        }
+        return current;
+    }
+
 }
 
 public class TreeApp {
@@ -1008,6 +1034,11 @@ public class TreeApp {
         theTree.mirrorTree();
         theTree.displayTree();
         theTree.mirrorTree();
+        System.out.println();
+
+        System.out.println();
+        System.out.print("Third (kth) inOrder Successor:: ");
+        theTree.kthSmallestNode(3).displayNode();
         System.out.println();
 
 
