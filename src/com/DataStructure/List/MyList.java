@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * Created by VIRAL on 4/2/2015.
+ * Reference taken from http://www.vogella.com/tutorials/JavaDatastructures/article.html
  */
 public class MyList<E> {
     private int size = 0;
@@ -40,4 +41,20 @@ public class MyList<E> {
     public int size(){
         return (size-1);
     }
+
+    public void remove(int index){
+        if(index >= size || index < 0){
+            throw new IndexOutOfBoundsException("Index:: "+index+" out of range");
+        }
+        elements[index] = null;
+        condenseList(index);
+        size--;
+    }
+
+    private void condenseList(int start){
+        for (int i = start; i < size; i++) {
+            elements[i] = elements[i+1];
+        }
+    }
+
 }
