@@ -152,15 +152,7 @@ class LinkList{
      * is even-numbered or odd-numbered
      */
     public Link getMiddle(){
-        Link fastLink = first;
-        Link slowLink = first;
-
-        while (fastLink != null && fastLink.next != null){
-            fastLink = fastLink.next.next;
-            slowLink = slowLink.next;
-        }
-
-        return slowLink;
+        return getMiddle(first);
     }
 
     /**
@@ -205,6 +197,81 @@ class LinkList{
 
         first = previous;
     }
+
+    /**
+     * Performs merge sort on LinkedList.
+     * XXXXXX HIGHLY UNSTABLE MAY RESULT IN STACK OVERFLOW WITH VERY SMALL LINKED LIST. XXXXXX
+     * Not preferable for realistic scenario, implemented only to understand the
+     * mergeSort from recursion point of view.
+     */
+    public void mergeSortedList(){
+        first = mergeSortedList(first);
+    }
+
+    /**
+     * Helper function for mergeSortList()
+     *
+     * Performs recursive merge sort on linked list
+     * @param head
+     * @return Link head of the new linkedList which is sorted
+     */
+    private Link mergeSortedList(Link head){
+        if (head == null || head.next == null){
+            return head;
+        }
+
+        Link firstList1 = head;
+        Link newMiddle = getMiddle(head);
+        Link firstList2 = newMiddle.next;
+        newMiddle.next = null;
+
+        Link firstAfterSortedList1 = mergeSortedList(firstList1);
+        Link firstAfterSortedList2 = mergeSortedList(firstList2);
+
+        return sortedMerge(firstAfterSortedList1, firstAfterSortedList2);
+    }
+
+
+    /**
+     * Helper function for mergeSortedList
+     * Performs a merging of two linkedList in increasing order recursively.
+     *
+     * @param link1 first/head of first half linkedList
+     * @param link2 first/head of second half linkedList
+     * @return Link first/head of final linkedList created by merging.
+     */
+    private Link sortedMerge(Link link1, Link link2){
+        Link result;
+
+        if(link1 == null){
+            return link2;
+        }else if(link2 == null){
+            return link1;
+        }else if (link2.dData < link1.dData){
+            result = link2;
+            result.next = sortedMerge(link1, link2.next);
+        }else {
+            result = link1;
+            result.next = sortedMerge(link1.next, link2);
+        }
+
+        return result;
+    }
+
+    /** Helper function for  mergeSortedList(Link head) and getMiddle()
+     *
+     * @param head head of the linkedList
+     * @return Link node which is in the middle
+     */
+    private Link getMiddle(Link head){
+        Link fastLink = head;
+        Link slowLink = head;
+        while (fastLink != null && fastLink.next != null){
+            fastLink = fastLink.next.next;
+            slowLink = slowLink.next;
+        }
+        return slowLink;
+    }
 	
 	public void displayList(){
 //		System.out.println("List (first -> last):");
@@ -233,12 +300,11 @@ public class SimpleLinkList {
 		
 		linkList.displayList();
 
-        linkList.swapNodes(46,24);
 
+        linkList.swapNodes(46,24);
         linkList.displayList();
 
         linkList.reverse();
-
         linkList.displayList();
 
 
