@@ -61,7 +61,7 @@ class LinkList{
 		first = first.next;
 		return temp;
 	}
-	
+
 	public Link deleteLink(int key){
 		Link current = first;
 		Link previous = first;
@@ -81,16 +81,72 @@ class LinkList{
 		}
 		return current;
 	}
+
+    /**
+     * Swap two link in a link list. Four cases to be handled
+     *      1) x and y may or may not be adjacent.
+     *      2) Either x or y may be a head node.
+     *      3) Either x or y may be last node.
+     *      4) x and/or y may not be present in linked list.
+     *      5) x and y are the same nodes
+     */
+    public boolean swapNodes(int key1, int key2){
+        if (key1 == key2){
+            return false;
+        }
+
+        Link link1 = findLink(key1);
+        Link link1Previous = previousLink(key1);
+
+        Link link2 = findLink(key2);
+        Link link2Previous = previousLink(key2);
+
+        if(link1 == null || link2 == null){
+            return false;
+        }
+
+        if (link1Previous != null){
+            link1Previous.next = link2;
+        }else {
+            first = link2;
+        }
+
+        if (link2Previous != null){
+            link2Previous.next = link1;
+        }else {
+            first = link1;
+        }
+
+        Link swapTemp = link2.next;
+        link2.next = link1.next;
+        link1.next = swapTemp;
+
+
+        return true;
+    }
+
+    private Link previousLink(int key){
+        Link current = first;
+        Link previous = null;
+        while (current.iData != key){
+            previous = current;
+            current = current.next;
+            if (current == null){
+                return null;
+            }
+        }
+        return previous;
+    }
 	
 	public void displayList(){
-		System.out.println("List (first -> last):");
+//		System.out.println("List (first -> last):");
 		Link current = first;
 		
 		while(current != null){
 			current.displayLink();
 			current = current.next;
 		}
-		System.out.print("");
+		System.out.println("");
 	}
 }
 
@@ -99,22 +155,25 @@ public class SimpleLinkList {
 	public static void main(String[] args) {
 		LinkList linkList = new LinkList();
 		
-		linkList.insertFirst(1, 1);
-		linkList.insertFirst(2, 2);
-		linkList.insertFirst(3, 3);
-		linkList.insertFirst(4, 4);
-		linkList.insertFirst(5, 5);
-		linkList.insertFirst(6, 6);
+		linkList.insertFirst(12, 1);
+		linkList.insertFirst(24, 2);
+		linkList.insertFirst(13, 3);
+		linkList.insertFirst(46, 4);
+		linkList.insertFirst(35, 5);
+		linkList.insertFirst(16, 6);
 		
 		linkList.displayList();
-		
+
+        linkList.swapNodes(12,35);
+
+        linkList.displayList();
 
 		System.out.println("\n4 exists at ::");
-		linkList.findLink(4).displayLink();
+		linkList.findLink(24).displayLink();
 		System.out.println("\n\n4 Deleted ::" );
-		linkList.deleteLink(4).displayLink();
-		System.out.println("\n\n4 exists at ::" + linkList.findLink(4));
-		
+		linkList.deleteLink(24).displayLink();
+		System.out.println("\n\n4 exists at ::" + linkList.findLink(24));
+
 		while( !linkList.isEmpty()){
 			Link deletedLink = linkList.deleteFirst();
 			System.out.println("\nDeleted Link");

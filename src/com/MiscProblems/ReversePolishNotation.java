@@ -8,7 +8,7 @@ import java.util.Stack;
 public class ReversePolishNotation {
 
     public static int evalRPN(String[] tokens){
-        int answer = 0;
+        int answer;
         String operators = "+-*/";
         Stack<String> stack = new Stack<>();
         for(String t : tokens){
