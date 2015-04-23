@@ -125,6 +125,10 @@ class LinkList{
         return true;
     }
 
+    /**
+     * @param key key of the node.
+     * @return previousLink of the node with given key
+     */
     private Link previousLink(int key){
         Link current = first;
         Link previous = null;
@@ -136,6 +140,70 @@ class LinkList{
             }
         }
         return previous;
+    }
+
+    /**
+     * Traverse linked list using two pointers. Move one pointer by one and
+     * other pointer by two. When the fast pointer reaches end slow pointer
+     * will reach middle of the linked list.
+     * A tie-breaker needs to be used with even number of nodes such as:
+     * return both or return the larger node or vice-versa
+     * In case of even numbers a counter needs to used to check if linked list
+     * is even-numbered or odd-numbered
+     */
+    public Link getMiddle(){
+        Link fastLink = first;
+        Link slowLink = first;
+
+        while (fastLink != null && fastLink.next != null){
+            fastLink = fastLink.next.next;
+            slowLink = slowLink.next;
+        }
+
+        return slowLink;
+    }
+
+    /**
+     * Deletes nth node from end
+     * @param n number of node from end
+     * @return Link which is deleted
+     */
+    public Link nthNodeFromEnd(int n){
+        Link current = first;
+        Link nthAway = first;
+
+        int count = 0;
+        while (count < n){
+            current = current.next;
+            count++;
+            if (current == null){
+                return null;
+            }
+        }
+
+        while (current != null){
+            current = current.next;
+            nthAway = nthAway.next;
+        }
+        return nthAway;
+    }
+
+    /**
+     * Reverse entire linked list
+     */
+    public void reverse(){
+        Link current = first;
+        Link previous = null;
+        Link next;
+
+        while (current != null){
+            next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+
+        first = previous;
     }
 	
 	public void displayList(){
@@ -161,18 +229,32 @@ public class SimpleLinkList {
 		linkList.insertFirst(46, 4);
 		linkList.insertFirst(35, 5);
 		linkList.insertFirst(16, 6);
+        linkList.insertFirst(9, 7);
 		
 		linkList.displayList();
 
-        linkList.swapNodes(12,35);
+        linkList.swapNodes(46,24);
 
         linkList.displayList();
 
-		System.out.println("\n4 exists at ::");
+        linkList.reverse();
+
+        linkList.displayList();
+
+
+        System.out.print("Middle Link :: ");
+        linkList.getMiddle().displayLink();
+        System.out.println();
+
+        System.out.print("2nd Link from end :: ");
+        linkList.nthNodeFromEnd(2).displayLink();
+        System.out.println();
+
+		System.out.println("\n24 exists at ::");
 		linkList.findLink(24).displayLink();
-		System.out.println("\n\n4 Deleted ::" );
+		System.out.println("\n\n24 Deleted ::" );
 		linkList.deleteLink(24).displayLink();
-		System.out.println("\n\n4 exists at ::" + linkList.findLink(24));
+		System.out.println("\n\n24 exists at ::" + linkList.findLink(24));
 
 		while( !linkList.isEmpty()){
 			Link deletedLink = linkList.deleteFirst();
