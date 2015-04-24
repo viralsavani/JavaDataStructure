@@ -272,6 +272,42 @@ class LinkList{
         }
         return slowLink;
     }
+
+    /**
+     * Rotates the linkedList
+     * @param k number of rotations must be*/
+    public void rotate(int k){
+        if (k < 0){
+            throw new IllegalArgumentException("Number of rotation must be positive number\t"+"found -> "+k);
+        }
+
+        Link current = first;
+        int lastIndex = size() - k;
+
+        while (current.next != null){
+            current = current.next;
+        }
+
+        current.next = first;
+
+        Link tempLink = first;
+        while (lastIndex > 0){
+            tempLink = tempLink.next;
+            lastIndex--;
+        }
+        first = tempLink.next;
+        tempLink.next = null;
+    }
+
+    public int size(){
+        Link current = first;
+        int count = 0;
+        while (current != null){
+            current = current.next;
+            count++;
+        }
+        return count;
+    }
 	
 	public void displayList(){
 //		System.out.println("List (first -> last):");
@@ -299,6 +335,9 @@ public class SimpleLinkList {
         linkList.insertFirst(9, 7);
 		
 		linkList.displayList();
+
+        linkList.rotate(1);
+        linkList.displayList();
 
 
         linkList.swapNodes(46,24);
