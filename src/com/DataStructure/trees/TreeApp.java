@@ -1,8 +1,5 @@
 package com.DataStructure.trees;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -638,6 +635,42 @@ class Tree {
             }
         }
     }
+
+    public void postOrderIterative(){
+        postOrderIterative(root);
+    }
+
+    private void postOrderIterative(Node node){
+        Stack<Node> nodeStack = new Stack<>();
+
+        while (true){
+
+            while (node != null){
+                if (node.rightChild != null){
+                    nodeStack.push(node.rightChild);
+                }
+                nodeStack.push(node);
+                node = node.leftChild;
+            }
+
+            node = nodeStack.pop();
+
+            if (!nodeStack.isEmpty()){
+                if (node.rightChild == nodeStack.peek()){
+                    Node tempNode = node;
+                    node = nodeStack.pop();
+                    nodeStack.push(tempNode);
+                }else{
+                    node.displayNode();
+                    node = null;
+                }
+            }else {
+                node.displayNode();
+                break;
+            }
+
+        }
+    }
 	
 	
 	/**
@@ -957,9 +990,7 @@ public class TreeApp {
 
 	public static void main(String[] args) throws Exception {
 
-		int value;	
-		String input;
-		Tree theTree = new Tree();	
+		Tree theTree = new Tree();
 		theTree.insert(50, 15);	
 		theTree.insert(25, 12);	
 		theTree.insert(75, 17);
@@ -974,172 +1005,6 @@ public class TreeApp {
 		theTree.insert(72, 72);
 		theTree.insert(86,99);
 
-		
-		Node root1 = theTree.find(50);	
 		theTree.displayTree();
-
-        System.out.println("Left Sub Tree ::");
-        theTree.leftSubTree().displayTree();
-        System.out.println();
-
-        System.out.println("Right Sub Tree ::");
-        theTree.rightSubTree().displayTree();
-        System.out.println();
-
-        System.out.print("Morris Traversal :: ");
-		theTree.morrisTraversal();
-		System.out.println();
-
-		System.out.println("Is tree balanced ? "+theTree.isBalanced());
-		System.out.println();
-
-		System.out.print("Breadth First Iterative :: ");
-		theTree.breadthFirstTraversal();
-		System.out.println();
-
-		System.out.print("Spiral Traversal :: ");
-		theTree.spiralTraversal();
-		System.out.println();
-
-		System.out.println("Diameter of tree :: "+theTree.treeDiameter());
-
-		System.out.print("InOrder Iterative :: ");
-		theTree.inOrderIterative();
-
-        System.out.print("PreOrder Iterative :: ");
-        theTree.preOrderIterative();
-
-        System.out.print("Print Given Level Iterative :: ");
-        theTree.printGivenLevelIterative(2);
-
-		System.out.println("LinkList :: "+theTree.toSortedLinkList().toString());
-
-		int keyToSearch = 72;
-		System.out.print("Node with key "+keyToSearch+" :: ");
-		theTree.binarySearch(72).displayNode();
-		System.out.println();
-
-		System.out.print("All Leaf Nodes :: ");
-		System.out.println(theTree.getAllLeaf().toString());
-
-		System.out.println("Does node 12 adheres to ChildSumProperty ? "+theTree.isSumProperty(theTree.find(12)));
-
-		System.out.println("Does Tree adheres to ChildSumProperty ? "+ theTree.isSumProperty());
-
-		System.out.print("Lowest Common Ancestor of 13 and 30 :: ");
-		theTree.lowestCommonAncestor(13, 30).displayNode();
-		System.out.println();
-
-        System.out.println("Mirror Image of Tree :: ");
-        theTree.mirrorTree();
-        theTree.displayTree();
-        theTree.mirrorTree();
-        System.out.println();
-
-        System.out.println();
-        System.out.print("Third (kth) inOrder Successor:: ");
-        theTree.kthSmallestNode(3).displayNode();
-        System.out.println();
-
-
-		System.out.println();
-		while(true){
-			putText("Enter command for ");	
-			putText("show, insert, find, delete, traverse, widthOfEachLevel, isBinaryTree, printAllPath ,levelTravesal, hasSumPath ,heightOfTree, exit or size : ");
-			String choice = getString();
-			
-			switch(choice){
-                case "exit":
-                    System.exit(0);
-                    break;
-
-                case "widthOfEachLevel":
-                    theTree.widthOfEachLevel();
-                    System.out.println();
-                    break;
-                case "isBinaryTree":
-                    System.out.println("Is tree binary ? "+theTree.isBinaryTree());
-                    break;
-                case "printAllPath":
-                    List<Node> nodeList = new ArrayList<>(theTree.size());
-                    theTree.printAllPath(root1,nodeList);
-                    break;
-                case "hasSumPath":
-                    putText("Enter Sum in digits ::");
-                    value = getInt();
-                    System.out.println("Sum contains in tree ? "+theTree.hasPathSum(value));
-                    break;
-                case "show":
-                    theTree.displayTree();
-                    break;
-                case "insert":
-                    putText("Enter Key to insert: ");
-                    value = getInt();
-                    putText("Enter Data to insert: ");
-                    int data = getInt();
-                    theTree.insert(value, data);
-                    break;
-                case "find":
-                    putText("Enter Key to find: ");
-                    value = getInt();
-                    Node found = theTree.find(value);
-                    if(found != null)
-                    {
-                        putText("Found: ");
-                        found.displayNode();
-                        putText("\n");
-                    }
-                    else
-                        putText("Could not find " + value + '\n');
-                    break;
-                case "delete":
-                    putText("Enter Key to delete: ");
-                    value = getInt();
-                    boolean didDelete = theTree.delete(value);
-                    if(didDelete)
-                        putText("Deleted " + value + '\n');
-                    else
-                        putText("Could not delete " + value + '\n');
-                    break;
-                case "traverse":
-                    putText("Enter type inOrder, preOrder or postOrder : ");
-                    input = getString();
-                    theTree.traverse(input);
-                    break;
-                case "levelTravesal":
-                    theTree.levelTraversal();
-                    break;
-                case "heightOfTree":
-                    System.out.println("Height of tree :: "+theTree.heightOfTree());
-                    break;
-                case "size":
-                    System.out.println("Size of tree :: "+theTree.size());
-                    break;
-                default:
-                    putText("Invalid entry\n");
-			}	
-		}
-	}
-
-	public static void putText(String s){	
-		System.out.print(s);	
-		System.out.flush();	
-	}	
-
-	public static String getString() throws IOException{	
-		InputStreamReader isr = new InputStreamReader(System.in);	
-		BufferedReader br = new BufferedReader(isr);	
-		String s = br.readLine();	
-		return s;	
-	}
-
-	public static char getChar() throws IOException {	
-		String s = getString();	
-		return s.charAt(0);	
-	}
-
-	public static int getInt() throws IOException {	
-		String s = getString();	
-		return Integer.parseInt(s);	
 	}
 }

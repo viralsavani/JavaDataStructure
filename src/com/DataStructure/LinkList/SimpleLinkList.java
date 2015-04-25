@@ -372,6 +372,27 @@ class LinkList{
         return null;
     }
 
+    /**
+     * Moves the last node to the head of the list.
+     */
+    public void moveLastToFirst(){
+        if (first == null || first.next == null){
+            return;
+        }
+
+        Link current = first;
+        Link previous = first;
+
+        while (current.next != null){
+            previous = current;
+            current = current.next;
+        }
+        previous.next = null;
+        current.next = first;
+        first = current;
+    }
+
+
 	public void displayList(){
 //		System.out.println("List (first -> last):");
 		Link current = first;
@@ -389,7 +410,6 @@ public class SimpleLinkList {
 	public static void main(String[] args) {
 		LinkList linkList = new LinkList();
 
-
 		linkList.insertFirst(34, 34);
 		linkList.insertFirst(12, 12);
 		linkList.insertFirst(56, 56);
@@ -398,40 +418,7 @@ public class SimpleLinkList {
         linkList.insertFirst(31, 31);
         linkList.insertFirst(65, 65);
 
-
 		linkList.displayList();
-
-        linkList.rotate(1);
-        linkList.displayList();
-
-
-        linkList.swapNodes(46,24);
-        linkList.displayList();
-
-        linkList.reverse();
-        linkList.displayList();
-
-
-        System.out.print("Middle Link :: ");
-        linkList.getMiddle().displayLink();
-        System.out.println();
-
-        System.out.print("2nd Link from end :: ");
-        linkList.nthNodeFromEnd(2).displayLink();
-        System.out.println();
-
-		System.out.println("\n24 exists at ::");
-		linkList.findLink(24).displayLink();
-		System.out.println("\n\n24 Deleted ::" );
-		linkList.deleteLink(24).displayLink();
-		System.out.println("\n\n24 exists at ::" + linkList.findLink(24));
-
-		while( !linkList.isEmpty()){
-			Link deletedLink = linkList.deleteFirst();
-			System.out.println("\nDeleted Link");
-			deletedLink.displayLink();
-			System.out.println();
-		}
 
 	}
 
