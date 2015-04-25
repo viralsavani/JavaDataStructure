@@ -1,5 +1,7 @@
 package com.DataStructure.LinkList;
 
+import java.util.HashSet;
+
 class Link{
 	
 	public int iData;
@@ -308,7 +310,68 @@ class LinkList{
         }
         return count;
     }
-	
+
+    /**
+     * Partitions entire linked list with left partition containing values
+     * less than pivot and right side containing values greater than
+     * pivot
+     */
+    public void partition(int pivot){
+        Link beforePivot = null;
+        Link beforeTracker = null;
+
+        Link afterPivot = null;
+        Link afterTracker = null;
+
+        Link current = first;
+        while (current != null){
+
+            Link currentTemp = current.next;
+            current.next = null;
+
+            if (current.iData < pivot){
+                if (beforePivot == null){
+                    beforePivot = current;
+                    beforeTracker = beforePivot;
+                }else {
+                    beforeTracker.next = current;
+                    beforeTracker = current;
+                }
+            }else{
+                if(afterPivot == null){
+                    afterPivot = current;
+                    afterTracker = afterPivot;
+                }else {
+                    afterTracker.next = current;
+                    afterTracker = current;
+                }
+            }
+            current =  currentTemp;
+        }
+        beforeTracker.next = afterPivot;
+
+        first = beforePivot;
+    }
+
+    /**
+     * Uses HashSet to detect loops in linked list.
+     */
+    public Link detectLoop(){
+        HashSet<Link> visitedNodeSet =  new HashSet<>(size());
+
+        Link current = first;
+        while (current != null){
+            current.displayLink();
+            if (visitedNodeSet.contains(current)){
+                return current;
+            }else {
+                visitedNodeSet.add(current);
+                current = current.next;
+            }
+        }
+        return null;
+    }
+
 	public void displayList(){
 //		System.out.println("List (first -> last):");
 		Link current = first;
@@ -325,15 +388,17 @@ public class SimpleLinkList {
 
 	public static void main(String[] args) {
 		LinkList linkList = new LinkList();
-		
-		linkList.insertFirst(12, 1);
-		linkList.insertFirst(24, 2);
-		linkList.insertFirst(13, 3);
-		linkList.insertFirst(46, 4);
-		linkList.insertFirst(35, 5);
-		linkList.insertFirst(16, 6);
-        linkList.insertFirst(9, 7);
-		
+
+
+		linkList.insertFirst(34, 34);
+		linkList.insertFirst(12, 12);
+		linkList.insertFirst(56, 56);
+        linkList.insertFirst(22, 22);
+        linkList.insertFirst(45, 45);
+        linkList.insertFirst(31, 31);
+        linkList.insertFirst(65, 65);
+
+
 		linkList.displayList();
 
         linkList.rotate(1);

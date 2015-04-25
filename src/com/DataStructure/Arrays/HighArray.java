@@ -1,5 +1,7 @@
 package com.DataStructure.Arrays;
 
+import java.util.Arrays;
+
 class ArrayImplementation
 {
 	private int[] a; 
@@ -150,6 +152,10 @@ class HighArray
 	{
 		int maxSize = 100; 
 		ArrayImplementation array = new ArrayImplementation(maxSize);
+
+        int[] arry = new int[100];
+        Arrays.sort(arry);
+
 
 		array.insert(77);
 		array.insert(99);
