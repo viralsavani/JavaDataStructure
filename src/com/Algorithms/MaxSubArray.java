@@ -7,7 +7,8 @@ public class MaxSubArray {
 		int[] inputArray = {13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
 		
 		System.out.println(FindMaxSumSubArray(inputArray, 0, inputArray.length-1));
-	}
+        System.out.println(kandaneMaxSubArray(inputArray));
+    }
 	
 	private static int[] maxCrossingSubArray(int[] array, int low, int mid, int high){		
 		int leftSum = -999999;
@@ -52,7 +53,7 @@ public class MaxSubArray {
 		return null;
 	}
 	
-		public static int FindMaxSumSubArray(int[] array, int low, int high){
+	public static int FindMaxSumSubArray(int[] array, int low, int high){
 
 		/* No element in the array */
 		if (low > high)  
@@ -87,4 +88,14 @@ public class MaxSubArray {
 				Math.max(FindMaxSumSubArray(array, low, middle), FindMaxSumSubArray(array, middle+1, high)));
 	}
 
+    public static int kandaneMaxSubArray(int[] array){
+        int maxEndingHere = array[0];
+        int maxSoFar = array[0];
+
+        for (int i = 0; i < array.length; i++) {
+            maxEndingHere = Math.max(0, maxEndingHere + array[i]);
+            maxSoFar = Math.max(maxEndingHere, maxSoFar);
+        }
+        return maxSoFar;
+    }
 }
