@@ -121,6 +121,24 @@ class DoublyImplemntation{
 		}
 		return current;
 	}
+
+    public void reverseList(){
+        DoublyLink temp = null;
+        DoublyLink current = first;
+
+        last = current;
+        while (current != null){
+            temp = current.previous;
+            current.previous = current.next;
+            current.next = temp;
+            current = current.previous;
+        }
+
+        if (temp != null){
+            first = temp.previous;
+            first.previous = null;
+        }
+    }
 	
 	public void displayForward(){
 		System.out.println("Displaying Forward -->");
@@ -150,36 +168,6 @@ public class DoublyLinkList {
 
 	public static void main(String[] args) {
 		DoublyImplemntation doublyLinkList = new DoublyImplemntation();
-		
-		doublyLinkList.insertFirst(1);
-		doublyLinkList.insertFirst(2);
-		doublyLinkList.insertFirst(3);
-		
-		doublyLinkList.displayForward();
-		
-		doublyLinkList.insertLast(4);
-		doublyLinkList.insertLast(5);
-		doublyLinkList.insertLast(6);
-		
-		doublyLinkList.displayForward();
-		
-		doublyLinkList.insertAfter(3, 3344);
-		doublyLinkList.insertAfter(3344, 333444);
-		
-		doublyLinkList.displayForward();
-		
-		System.out.print("Delete First \t");
-		doublyLinkList.deleteFirst().displyLink();
-		System.out.println();
-		
-		System.out.print("Delete Last \t");
-		doublyLinkList.deleteLast().displyLink();
-		System.out.println();
-		
-		System.out.print("Delete 333444 \t");
-		doublyLinkList.deleteKey(333444).displyLink();
-		System.out.println();
-		
-		doublyLinkList.displayBackward();
+
 	}
 }
