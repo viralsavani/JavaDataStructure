@@ -53,6 +53,25 @@ class Tree {
 	}
 
 	/**
+	 * Compares two trees recursively from root to leaf in breadth first style and
+	 * stops at not equal nodes.
+	 * @args root1-root of tree 1, root2-root of tree 2
+	 */
+	public static boolean treeCompare(Node root1, Node root2){
+		if(root1 == root2){
+			return true;
+		}
+		if(root1 == null || root2 == null){
+			return false;
+		}
+		return (	(root1.data == root2.data) &&
+					(root1.key == root2.key) &&
+					(treeCompare(root1.leftChild,root2.leftChild)) &&
+					(treeCompare(root1.rightChild, root2.rightChild))
+				);
+	}
+
+	/**
 	 * Perform simple binary search to locate a key
 	 */
 
@@ -70,7 +89,6 @@ class Tree {
 		}
 		return current;
 	}
-
 
 	/**
 	 * To insert first we need to find the right parent.
@@ -112,18 +130,17 @@ class Tree {
 		}
 	}
 
-
 	/**
-	 * Like any recursive function, there must be a base case: the 
-	 * condition that causes the routine to return immediately, without 
-	 * calling itself. In inOrder() this happens when the node passed 
+	 * Like any recursive function, there must be a base case: the
+	 * condition that causes the routine to return immediately, without
+	 * calling itself. In inOrder() this happens when the node passed
 	 * as an argument is null.
-	 * It may not be obvious, but for each node, the routine traverses 
+	 * It may not be obvious, but for each node, the routine traverses
 	 * the node's left subtree, visits the node, and traverses the right subtree.
-	 * 
-	 * Traversing is not as fast as the other operations. However, traversals 
-	 * are probably not very commonly carried out in a typical large database. 
-	 * They're more appropriate when a tree is used as an aid to parsing algebraic 
+	 *
+	 * Traversing is not as fast as the other operations. However, traversals
+	 * are probably not very commonly carried out in a typical large database.
+	 * They're more appropriate when a tree is used as an aid to parsing algebraic
 	 * or similar expressions, which are probably not too long anyway.
 	 */
 
@@ -151,21 +168,20 @@ class Tree {
 		}
 	}
 
-	public void traverse(String traversalType){	
-		switch(traversalType){	
-			case "preOrder": System.out.print("\nPreorder traversal: ");	
-			preOrderTraversal(root);	
-			break;	
-			case "inOrder": System.out.print("\nInorder traversal:  ");	
-			inOrderTraversal(root);	
-			break;	
-			case "postOrder": System.out.print("\nPostorder traversal: ");	
-			postOrderTraversal(root);	
-			break;	
-		}	
-		System.out.println();	
+	public void traverse(String traversalType){
+		switch(traversalType){
+			case "preOrder": System.out.print("\nPreorder traversal: ");
+			preOrderTraversal(root);
+			break;
+			case "inOrder": System.out.print("\nInorder traversal:  ");
+			inOrderTraversal(root);
+			break;
+			case "postOrder": System.out.print("\nPostorder traversal: ");
+			postOrderTraversal(root);
+			break;
+		}
+		System.out.println();
 	}
-
 
 	public Node minimum(){
 		Node current = root;
@@ -225,7 +241,7 @@ class Tree {
 			if(current == root){
 				root = current.rightChild;
 			}else if(isLeftChild){								// Is the node being deleted is leftChild of parent
-				parent.leftChild = current.rightChild;		
+				parent.leftChild = current.rightChild;
 			}else{
 				parent.rightChild = current.rightChild;
 			}
@@ -245,7 +261,7 @@ class Tree {
 		 */
 		else{
 			Node successor = getSuccessor(current);		// Get the successor node of the Node to delete
-			if(current == root){	
+			if(current == root){
 				root = successor;
 			}else if(isLeftChild){
 				parent.leftChild = successor;
@@ -275,28 +291,7 @@ class Tree {
 		}
 		return successor;
 	}
-
 	
-	/**
-	 * Compares two trees recursively from root to leaf in breadth first style and 
-	 * stops at not equal nodes.
-	 * @args root1-root of tree 1, root2-root of tree 2
-	 */
-	public static boolean treeCompare(Node root1, Node root2){
-		if(root1 == root2){
-			return true;
-		}
-		if(root1 == null || root2 == null){
-			return false;
-		}
-		return (	(root1.data == root2.data) && 
-					(root1.key == root2.key) && 
-					(treeCompare(root1.leftChild,root2.leftChild)) && 
-					(treeCompare(root1.rightChild, root2.rightChild))
-				);
-	}
-	
-
 	/**
 	 * Level traversal uses recursive approach which can be inefficient for large data.
 	 * Queue can be used instead of stack which dramatically increases the efficiency by 
@@ -511,20 +506,17 @@ class Tree {
 		if(node == null){
             return true;
 		}else{
-            node.displayNode();
-            if(node.leftChild != null && node.leftChild.key < node.key){
-                isBinaryTree(node.leftChild, min, node.key);
-            }else{
+            if(node.key <= min || node.key > max){
                 return false;
-            }
-
-            if(node.rightChild != null && node.rightChild.key > node.key){
-                isBinaryTree(node.rightChild, node.key+1, max);
-            }else{
-                return false;
+            }else {
+                if(isBinaryTree(node.leftChild,min,node.key) &&
+                        (isBinaryTree(node.rightChild, node.key, max))){
+                    return true;
+                }else {
+                    return false;
+                }
             }
 		}
-        return true;
 	}
 		
 	public void displayTree(){
@@ -1030,6 +1022,57 @@ class Tree {
             }
         }
         return result;
+    }
+
+    /**
+     * @param node A Node to check if is a descendant of root
+     * @return boolean TRUE or FALSE
+     */
+    public boolean isDescendant(Node node){
+        return isDescendant(root, node);
+    }
+    /**
+     * Helper function if isDescendant() and commonAncestor()
+     */
+    private boolean isDescendant(Node root, Node child){
+        if (root == null){
+            return false;
+        }
+        if (root == child){
+            return true;
+        }
+        return isDescendant(root.leftChild, child) || isDescendant(root.rightChild, child);
+    }
+
+    /**
+     * Returns the commonAncestor of the nodes. Works even if the tree is not
+     * Binary Search Tree and no parent link.
+     */
+    public Node commonAncestor(Node node1, Node node2){
+        /* Check if both nodes are in the tree */
+        if (!isDescendant(root, node1) || !isDescendant(root, node2)){
+            return null;
+        }
+        return commonAncestorHelper(root, node1, node2);
+    }
+
+    /**
+     * Helper function for commonAncestor()
+     */
+    private Node commonAncestorHelper(Node root, Node node1, Node node2){
+        if (root == null){
+            return null;
+        }
+        if (root == node1 || root == node2){
+            return root;
+        }
+        boolean is_node1_onLeftSide = isDescendant(root.leftChild, node1);
+        boolean is_node2_onLeftSide = isDescendant(root.leftChild, node2);
+        if (is_node1_onLeftSide != is_node2_onLeftSide){
+            return root;
+        }
+        Node newRoot = is_node1_onLeftSide ? root.leftChild : root.rightChild;
+        return commonAncestorHelper(newRoot, node1, node2);
     }
 
 }
