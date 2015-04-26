@@ -700,18 +700,34 @@ class Tree {
 	 * and different amounts of work to keep them balanced.
 	 */
 	public boolean isBalanced() {
-        return root == null || isBalanced(root);
+        return checkHeight(root) != -1;
     }
-	
-	private boolean isBalanced(Node node){
-		return ((node == null) ||
-				((isBalanced(node.leftChild) && 
-				(isBalanced(node.rightChild)) && 
-				(Math.abs(
-						height(node.leftChild) - height(node.rightChild)
-						)) <= 1
-				)));
-	}
+	/**
+     * Return the height of the tree. Better recursive approach
+     */
+    private int checkHeight(Node node){
+        if (node == null){
+            return 0;
+        }
+
+        int leftHeight = checkHeight(node.leftChild);
+        if (leftHeight == -1){
+            return -1;
+        }
+
+        int rightHeight = checkHeight(node.rightChild);
+        if (rightHeight == -1){
+            return -1;
+        }
+
+        int heightDiff = leftHeight - rightHeight;
+        if(Math.abs(heightDiff) > 1){
+            return -1;
+        }else {
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
+    }
+
 	
 	public LinkedList<Node> toSortedLinkList(){
 		return toSortedList(root);
@@ -984,6 +1000,38 @@ class Tree {
         return current;
     }
 
+    /**
+     * @return arrayList containing LinkedList of each node in respected level
+     */
+    public ArrayList<LinkedList<Node>> createLevelLinkedList(){
+        ArrayList<LinkedList<Node>> result = new ArrayList<>();
+        LinkedList<Node> current = new LinkedList<>();
+
+        if (root != null){
+            current.add(root);
+        }
+
+        while (current.size() > 0){
+            result.add(current);
+
+            /**
+             * Save the reference to previous level and
+             * add their childrens in new current.
+             */
+            LinkedList<Node> parents = current;
+            current = new LinkedList<>();
+            for (Node parent : parents){
+                if (parent.leftChild != null){
+                    current.add(parent.leftChild);
+                }
+                if (parent.rightChild != null){
+                    current.add(parent.rightChild);
+                }
+            }
+        }
+        return result;
+    }
+
 }
 
 public class TreeApp {
@@ -1003,7 +1051,6 @@ public class TreeApp {
 		theTree.insert(11, 11);
 		theTree.insert(70, 70);
 		theTree.insert(72, 72);
-		theTree.insert(86,99);
 
 		theTree.displayTree();
 	}
