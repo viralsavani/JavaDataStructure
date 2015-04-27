@@ -31,10 +31,8 @@ class LinkList{
 	public boolean isEmpty(){
 		return (first == null);
 	}
-	
-	
-	
-	/*
+
+	/**
 	 * 	The insertFirst() method of LinkList inserts a new link at the beginning of the list.
 	 * 	This is the easiest place to insert a link, because first already points to the first link.
 	 *  To insert the new link, we need only set the next field in the newly created link to
@@ -196,7 +194,6 @@ class LinkList{
             previous = current;
             current = next;
         }
-
         first = previous;
     }
 
@@ -232,7 +229,6 @@ class LinkList{
 
         return sortedMerge(firstAfterSortedList1, firstAfterSortedList2);
     }
-
 
     /**
      * Helper function for mergeSortedList
