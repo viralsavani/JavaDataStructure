@@ -279,6 +279,10 @@ class LinkList{
             throw new IllegalArgumentException("Number of rotation must be positive number\t"+"found -> "+k);
         }
 
+        if (size() == 1){
+            return;
+        }
+
         Link current = first;
         int lastIndex = size() - k;
 
@@ -388,6 +392,51 @@ class LinkList{
         first = current;
     }
 
+    /**
+     * Swap the Kth node from start with Kth node from end
+     */
+    public void swapKthNode(int k){
+        if (k >= size() || k < 0){
+            throw new IllegalArgumentException("K should be less than size or greater than 0\t"+"Found :: "+k);
+        }
+
+        /* Check if both nodes to swap are same */
+        if(k == 0 || 2*(k-1) == size()){
+            return;
+        }
+
+        Link kthLinkFromStart = first;
+        Link kthLinkFromStartPrevious = null;
+        for (int i = 1; i < k; i++) {
+            kthLinkFromStartPrevious = kthLinkFromStart;
+            kthLinkFromStart = kthLinkFromStart.next;
+        }
+
+        Link kthLinkFromEnd = first;
+        Link kthLinkFromEndPrevious = null;
+        for (int i = 1; i < size()-k+1; i++) {
+            kthLinkFromEndPrevious = kthLinkFromEnd;
+            kthLinkFromEnd = kthLinkFromEnd.next;
+        }
+
+        if (kthLinkFromStartPrevious != null){
+            kthLinkFromStartPrevious.next = kthLinkFromEnd;
+        }
+        if (kthLinkFromEndPrevious != null){
+            kthLinkFromEndPrevious.next = kthLinkFromStart;
+        }
+
+        Link temp = kthLinkFromStart.next;
+        kthLinkFromStart.next = kthLinkFromEnd.next;
+        kthLinkFromEnd.next = temp;
+
+        if (k == 1){
+            first = kthLinkFromEnd;
+        }
+        if (k == size()){
+            first = kthLinkFromStart;
+        }
+    }
 
 	public void displayList(){
 //		System.out.println("List (first -> last):");
@@ -415,7 +464,6 @@ public class SimpleLinkList {
         linkList.insertFirst(65, 65);
 
 		linkList.displayList();
-
 	}
 
 }
