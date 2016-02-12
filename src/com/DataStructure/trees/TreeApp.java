@@ -292,6 +292,25 @@ class Tree {
 		return successor;
 	}
 	
+	
+	public void levelTraversalIterative(){
+		Queue<Node> queue = new ArrayDeque<>(size());
+		queue.add(root);
+		Node node;
+		
+		while(queue.size() > 0){
+			node = queue.poll();
+			node.displayNode();
+			
+			if (node.leftChild != null){
+				queue.add(node.leftChild);
+			}
+			if (node.rightChild != null){
+				queue.add(node.rightChild);
+			}
+		}
+	}
+	
 	/**
 	 * Level traversal uses recursive approach which can be inefficient for large data.
 	 * Queue can be used instead of stack which dramatically increases the efficiency by 
@@ -1129,6 +1148,6 @@ public class TreeApp {
 
 		theTree.displayTree();
 		
-		System.out.println(theTree.shortestPath(72, 43));
+		theTree.levelTraversalIterative();
 	}
 }
