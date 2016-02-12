@@ -2,8 +2,8 @@ package com.DataStructure.LinkList;
 
 class SortedLinkListImplementation{
 
-	private Link first;
-	private Link last;
+	private LinkListNode first;
+	private LinkListNode last;
 
 	public SortedLinkListImplementation(){
 		first = null;		
@@ -15,9 +15,9 @@ class SortedLinkListImplementation{
 	}
 
 	public void insertSorted(int iData, double dData){
-		Link newLink = new Link(iData, dData);
-		Link current = first;
-		Link previous = null;
+		LinkListNode newLink = new LinkListNode(iData, dData);
+		LinkListNode current = first;
+		LinkListNode previous = null;
 		
 		// Key is iData, actual data is in dData
 		while(current != null && iData > current.iData){
@@ -32,15 +32,15 @@ class SortedLinkListImplementation{
 		newLink.next = current;
 	}
 	
-	public Link removeFirst(){
-		Link deleteLink = first;
+	public LinkListNode removeFirst(){
+		LinkListNode deleteLink = first;
 		first = first.next;
 		return deleteLink;
 	}
 
 
 	public void displayList(){
-		Link current = first;
+		LinkListNode current = first;
 		while(current != null){
 			current.displayLink();
 			current = current.next;

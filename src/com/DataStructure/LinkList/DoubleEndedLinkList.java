@@ -1,8 +1,8 @@
 package com.DataStructure.LinkList;
 
 class DoubleEndedImplementation{
-	private Link first;
-	private Link last;
+	private LinkListNode first;
+	private LinkListNode last;
 
 	public DoubleEndedImplementation(){
 		first = null;		
@@ -14,7 +14,7 @@ class DoubleEndedImplementation{
 	}
 
 	public void insertFirst(int iData, double dData){
-		Link  newLink = new Link(iData, dData);
+		LinkListNode  newLink = new LinkListNode(iData, dData);
 
 		if(isEmpty()){
 			last = newLink;
@@ -24,7 +24,7 @@ class DoubleEndedImplementation{
 	}
 
 	public void insertLast(int iData, double dData){
-		Link newLink = new Link(iData, dData);
+		LinkListNode newLink = new LinkListNode(iData, dData);
 
 		if(isEmpty()){
 			first = newLink;
@@ -34,8 +34,8 @@ class DoubleEndedImplementation{
 		last = newLink;
 	}
 
-	public Link deleteFirst(){
-		Link deleteLink = first;
+	public LinkListNode deleteFirst(){
+		LinkListNode deleteLink = first;
 		if(first.next == null){
 			last = null;
 		}
@@ -48,9 +48,9 @@ class DoubleEndedImplementation{
 	 * traverse entire list which is not efficient.
 	 * A doubly link list would to the trick. 
 	 */
-	public Link deleteLast(){
-		Link current = first;
-		Link previous = first;
+	public LinkListNode deleteLast(){
+		LinkListNode current = first;
+		LinkListNode previous = first;
 		
 		while(current.next != null){
 			previous = current;
@@ -68,7 +68,7 @@ class DoubleEndedImplementation{
 	}
 
 	public void displayList(){
-		Link current = first;
+		LinkListNode current = first;
 		while(current != null){
 			current.displayLink();
 			current = current.next;

@@ -2,13 +2,13 @@ package com.DataStructure.LinkList;
 
 import java.util.HashSet;
 
-class Link{
+class LinkListNode{
 	
 	public int iData;
 	public double dData;
-	public Link next;
+	public LinkListNode next;
 	
-	public Link(int iData, double dData){
+	public LinkListNode(int iData, double dData){
 		//next is automatically set to null
 		this.iData = iData;
 		this.dData = dData;
@@ -22,10 +22,20 @@ class Link{
 class LinkList{
 	
 	// Reference to the first link on the list.
-	private Link first;
+	private LinkListNode first;
 	
 	public LinkList(){
 		first = null;
+	}
+	
+	/**
+	 * Returns the head of LinkList
+	 */
+	public LinkListNode head() {
+		if (first == null) {
+			return null;
+		}
+		return first;
 	}
 	
 	public boolean isEmpty(){
@@ -39,13 +49,13 @@ class LinkList{
 	 *  point to the old first link, and then change first so it points to the newly created link.
 	 */
 	public void insertFirst(int iData, double dData){
-		Link newLink = new Link(iData, dData);
+		LinkListNode newLink = new LinkListNode(iData, dData);
 		newLink.next = first;		//newLink --> oldFirst
 		first = newLink;			//first -->newLink
 	}
 	
-	public Link findLink(int key){
-		Link current = first;
+	public LinkListNode findLink(int key){
+		LinkListNode current = first;
 		while(current.iData != key){		//Check until key is not found
 			if(current.next == null){		//Check if end of list
 				return null;				//If yes return null
@@ -56,15 +66,15 @@ class LinkList{
 		return current;						//Key found
 	}
 	
-	public Link deleteFirst(){
-		Link temp = first;
+	public LinkListNode deleteFirst(){
+		LinkListNode temp = first;
 		first = first.next;
 		return temp;
 	}
 
-	public Link deleteLink(int key){
-		Link current = first;
-		Link previous = first;
+	public LinkListNode deleteLink(int key){
+		LinkListNode current = first;
+		LinkListNode previous = first;
 		
 		while(current.iData != key){			// Same as find key.
 			if(current.next == null){			
@@ -95,11 +105,11 @@ class LinkList{
             return false;
         }
 
-        Link link1 = findLink(key1);
-        Link link1Previous = previousLink(key1);
+        LinkListNode link1 = findLink(key1);
+        LinkListNode link1Previous = previousLink(key1);
 
-        Link link2 = findLink(key2);
-        Link link2Previous = previousLink(key2);
+        LinkListNode link2 = findLink(key2);
+        LinkListNode link2Previous = previousLink(key2);
 
         if(link1 == null || link2 == null){
             return false;
@@ -117,7 +127,7 @@ class LinkList{
             first = link1;
         }
 
-        Link swapTemp = link2.next;
+        LinkListNode swapTemp = link2.next;
         link2.next = link1.next;
         link1.next = swapTemp;
 
@@ -129,9 +139,9 @@ class LinkList{
      * @param key key of the node.
      * @return previousLink of the node with given key
      */
-    private Link previousLink(int key){
-        Link current = first;
-        Link previous = null;
+    private LinkListNode previousLink(int key){
+        LinkListNode current = first;
+        LinkListNode previous = null;
         while (current.iData != key){
             previous = current;
             current = current.next;
@@ -151,7 +161,7 @@ class LinkList{
      * In case of even numbers a counter needs to used to check if linked list
      * is even-numbered or odd-numbered
      */
-    public Link getMiddle(){
+    public LinkListNode getMiddle(){
         return getMiddle(first);
     }
 
@@ -160,9 +170,9 @@ class LinkList{
      * @param n number of node from end
      * @return Link which is deleted
      */
-    public Link nthNodeFromEnd(int n){
-        Link current = first;
-        Link nthAway = first;
+    public LinkListNode nthNodeFromEnd(int n){
+        LinkListNode current = first;
+        LinkListNode nthAway = first;
 
         int count = 0;
         while (count < n){
@@ -184,9 +194,9 @@ class LinkList{
      * Reverse entire linked list
      */
     public void reverse(){
-        Link current = first;
-        Link previous = null;
-        Link next;
+        LinkListNode current = first;
+        LinkListNode previous = null;
+        LinkListNode next;
 
         while (current != null){
             next = current.next;
@@ -214,18 +224,18 @@ class LinkList{
      * @param head
      * @return Link head of the new linkedList which is sorted
      */
-    private Link mergeSortedList(Link head){
+    private LinkListNode mergeSortedList(LinkListNode head){
         if (head == null || head.next == null){
             return head;
         }
 
-        Link firstList1 = head;
-        Link newMiddle = getMiddle(head);
-        Link firstList2 = newMiddle.next;
+        LinkListNode firstList1 = head;
+        LinkListNode newMiddle = getMiddle(head);
+        LinkListNode firstList2 = newMiddle.next;
         newMiddle.next = null;
 
-        Link firstAfterSortedList1 = mergeSortedList(firstList1);
-        Link firstAfterSortedList2 = mergeSortedList(firstList2);
+        LinkListNode firstAfterSortedList1 = mergeSortedList(firstList1);
+        LinkListNode firstAfterSortedList2 = mergeSortedList(firstList2);
 
         return sortedMerge(firstAfterSortedList1, firstAfterSortedList2);
     }
@@ -238,8 +248,8 @@ class LinkList{
      * @param link2 first/head of second half linkedList
      * @return Link first/head of final linkedList created by merging.
      */
-    private Link sortedMerge(Link link1, Link link2){
-        Link result;
+    private LinkListNode sortedMerge(LinkListNode link1, LinkListNode link2){
+        LinkListNode result;
 
         if(link1 == null){
             return link2;
@@ -261,9 +271,9 @@ class LinkList{
      * @param head head of the linkedList
      * @return Link node which is in the middle
      */
-    private Link getMiddle(Link head){
-        Link fastLink = head;
-        Link slowLink = head;
+    private LinkListNode getMiddle(LinkListNode head){
+        LinkListNode fastLink = head;
+        LinkListNode slowLink = head;
         while (fastLink != null && fastLink.next != null){
             fastLink = fastLink.next.next;
             slowLink = slowLink.next;
@@ -283,7 +293,7 @@ class LinkList{
             return;
         }
 
-        Link current = first;
+        LinkListNode current = first;
         int lastIndex = size() - k;
 
         while (current.next != null){
@@ -292,7 +302,7 @@ class LinkList{
 
         current.next = first;
 
-        Link tempLink = first;
+        LinkListNode tempLink = first;
         while (lastIndex > 0){
             tempLink = tempLink.next;
             lastIndex--;
@@ -302,7 +312,7 @@ class LinkList{
     }
 
     public int size(){
-        Link current = first;
+        LinkListNode current = first;
         int count = 0;
         while (current != null){
             current = current.next;
@@ -317,16 +327,16 @@ class LinkList{
      * pivot
      */
     public void partition(int pivot){
-        Link beforePivot = null;
-        Link beforeTracker = null;
+        LinkListNode beforePivot = null;
+        LinkListNode beforeTracker = null;
 
-        Link afterPivot = null;
-        Link afterTracker = null;
+        LinkListNode afterPivot = null;
+        LinkListNode afterTracker = null;
 
-        Link current = first;
+        LinkListNode current = first;
         while (current != null){
 
-            Link currentTemp = current.next;
+            LinkListNode currentTemp = current.next;
             current.next = null;
 
             if (current.iData < pivot){
@@ -356,10 +366,10 @@ class LinkList{
     /**
      * Uses HashSet to detect loops in linked list.
      */
-    public Link detectLoop(){
-        HashSet<Link> visitedNodeSet =  new HashSet<>(size());
+    public LinkListNode detectLoop(){
+        HashSet<LinkListNode> visitedNodeSet =  new HashSet<>(size());
 
-        Link current = first;
+        LinkListNode current = first;
         while (current != null){
             current.displayLink();
             if (visitedNodeSet.contains(current)){
@@ -380,8 +390,8 @@ class LinkList{
             return;
         }
 
-        Link current = first;
-        Link previous = first;
+        LinkListNode current = first;
+        LinkListNode previous = first;
 
         while (current.next != null){
             previous = current;
@@ -405,15 +415,15 @@ class LinkList{
             return;
         }
 
-        Link kthLinkFromStart = first;
-        Link kthLinkFromStartPrevious = null;
+        LinkListNode kthLinkFromStart = first;
+        LinkListNode kthLinkFromStartPrevious = null;
         for (int i = 1; i < k; i++) {
             kthLinkFromStartPrevious = kthLinkFromStart;
             kthLinkFromStart = kthLinkFromStart.next;
         }
 
-        Link kthLinkFromEnd = first;
-        Link kthLinkFromEndPrevious = null;
+        LinkListNode kthLinkFromEnd = first;
+        LinkListNode kthLinkFromEndPrevious = null;
         for (int i = 1; i < size()-k+1; i++) {
             kthLinkFromEndPrevious = kthLinkFromEnd;
             kthLinkFromEnd = kthLinkFromEnd.next;
@@ -426,7 +436,7 @@ class LinkList{
             kthLinkFromEndPrevious.next = kthLinkFromStart;
         }
 
-        Link temp = kthLinkFromStart.next;
+        LinkListNode temp = kthLinkFromStart.next;
         kthLinkFromStart.next = kthLinkFromEnd.next;
         kthLinkFromEnd.next = temp;
 
@@ -437,10 +447,10 @@ class LinkList{
             first = kthLinkFromStart;
         }
     }
-
+   
 	public void displayList(){
 //		System.out.println("List (first -> last):");
-		Link current = first;
+		LinkListNode current = first;
 		
 		while(current != null){
 			current.displayLink();

@@ -1074,7 +1074,39 @@ class Tree {
         Node newRoot = is_node1_onLeftSide ? root.leftChild : root.rightChild;
         return commonAncestorHelper(newRoot, node1, node2);
     }
-
+    
+    public int shortestPath(int key1, int key2) {
+    	Node lca = lowestCommonAncestor(key1, key2);
+    	if (lca == null){
+    		return -1;
+    	}
+    	
+    	Node current = lca;
+    	int distance = 0;
+    	while(true){
+    		if (current.key < key1){
+    			current = current.leftChild;
+    		}else if (current.key > key2){
+    			current = current.rightChild;
+    		}else{
+    			break;
+    		}
+    		distance++;
+    	}
+    	
+    	current = lca;
+    	while(true){
+    		if (current.key < key1){
+    			current = current.leftChild;
+    		}else if (current.key > key2){
+    			current = current.rightChild;
+    		}else{
+    			break;
+    		}
+    		distance++;
+    	}  	
+    	return distance;
+	}
 }
 
 public class TreeApp {
@@ -1096,5 +1128,7 @@ public class TreeApp {
 		theTree.insert(72, 72);
 
 		theTree.displayTree();
+		
+		System.out.println(theTree.shortestPath(72, 43));
 	}
 }
