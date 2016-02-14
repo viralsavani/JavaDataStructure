@@ -2,6 +2,9 @@ package com.DataStructure.LinkList;
 
 import java.util.HashSet;
 
+import com.Recursion.MergeSort;
+import com.sun.corba.se.impl.orbutil.RepositoryIdUtility;
+
 class LinkListNode{
 	
 	public int iData;
@@ -207,6 +210,53 @@ class LinkList{
         first = previous;
     }
 
+    public static LinkListNode mergeSortedListIterative(LinkList list1, LinkList list2){
+      	
+    	LinkListNode node1 = list1.head();
+    	LinkListNode node2 = list2.head();
+    	LinkListNode resultHead = null;
+    	LinkListNode resultNode = null;
+    	
+    	while (node1 != null && node2 != null){
+    		if (node1.iData < node2.iData){
+    			if (resultHead == null){
+    				resultHead = node1;
+    				resultNode = resultHead;
+    			}else{
+    				resultNode.next = node1;
+    				resultNode = resultNode.next;
+    			}
+				node1 = node1.next;
+    		}else{
+    			if (resultHead == null){
+    				resultHead = node2;
+    				resultNode = resultHead;
+    			}else{
+    				resultNode.next = node2;
+    				resultNode = resultNode.next;
+    			}
+    			node2 = node2.next;
+    		}
+    		resultNode.next = null;
+    	}
+    	
+		while (node1 != null){
+			resultNode.next = node1;
+			resultNode = resultNode.next;
+			node1 = node1.next;
+		}
+    	    	
+		while (node2 != null){
+			resultNode.next = node2;
+			resultNode = resultNode.next;
+			node2 = node2.next;
+		}
+    	
+    	return resultHead;
+    }
+    
+    
+    
     /**
      * Performs merge sort on LinkedList.
      * XXXXXX HIGHLY UNSTABLE MAY RESULT IN STACK OVERFLOW WITH VERY SMALL LINKED LIST. XXXXXX
@@ -463,17 +513,14 @@ class LinkList{
 public class SimpleLinkList {
 
 	public static void main(String[] args) {
-		LinkList linkList = new LinkList();
-
-		linkList.insertFirst(34, 34);
-		linkList.insertFirst(12, 12);
-		linkList.insertFirst(56, 56);
-        linkList.insertFirst(22, 22);
-        linkList.insertFirst(45, 45);
-        linkList.insertFirst(31, 31);
-        linkList.insertFirst(65, 65);
-
-		linkList.displayList();
+		LinkList linkList1 = new LinkList();
+		linkList1.insertFirst(20, 20);
+		linkList1.insertFirst(15, 15);
+		linkList1.insertFirst(10, 10);
+        linkList1.insertFirst(5, 5);
+        linkList1.insertFirst(1, 1);
+        
+		linkList1.displayList();
 	}
 
 }
