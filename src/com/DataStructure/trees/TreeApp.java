@@ -1148,6 +1148,6 @@ public class TreeApp {
 
 		theTree.displayTree();
 		
-		theTree.levelTraversalIterative();
+		theTree.inOrderIterative();
 	}
 }
